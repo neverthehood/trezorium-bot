@@ -2,6 +2,7 @@
 # Trezorium Dating Bot
 
 import asyncio
+from aiohttp import web
 import logging
 from aiogram import Bot, Dispatcher, F, Router
 from aiogram.filters import CommandStart, Command
@@ -477,8 +478,26 @@ async def set_commands(bot):
     await bot.set_my_commands(commands)
 
 
+async def health_check(request):
+    return web.Response(text="OK")
+
+
+async def start_health_server():
+    app = web.Application()
+    app.router.add_get("/", health_check)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, "0.0.0.0", 10000)
+    await site.start()
+    print("[Health] Server started on port 10000")
+
+
 async def main():
     logging.basicConfig(level=logging.INFO)
+    
+    # Запускаем health check сервер в фоне
+    asyncio.create_task(start_health_server())
+    
     bot = Bot(cfg.BOT_TOKEN)
     try:
         await bot.delete_webhook(drop_pending_updates=True)
