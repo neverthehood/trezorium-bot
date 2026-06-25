@@ -85,6 +85,12 @@ async def get_all_results() -> List[dict]:
     return result.data or []
 
 
+async def delete_old_result(telegram_id: int) -> None:
+    """Удаляет старые результаты пользователя перед повторным прохождением."""
+    client = get_client()
+    client.table("results").delete().eq("telegram_id", telegram_id).execute()
+
+
 # ---- Лайки / матчи ----
 
 async def save_like(from_id: int, to_id: int, direction: str = "like"):

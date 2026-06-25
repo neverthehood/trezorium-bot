@@ -13,7 +13,7 @@ from src.models import SessionState
 from src.mods import compute_mods
 from src.indotype_resolver import resolve_indotype
 from src.gpt_messages import generate_first_message
-from src.supabase_client import save_user, save_result, get_all_results
+from src.supabase_client import save_user, save_result, get_all_results, delete_old_result, delete_old_result
 
 router = Router()
 
@@ -130,6 +130,18 @@ async def finish_test(m, st):
     code = indotype.get("code", "—")
     human_name = TYPE_NAMES.get(code, code)
     description = TYPE_DESCRIPTIONS.get(code, "Уникальный типаж!")
+
+    # Удаляем старый результат (повторное прохождение)
+    try:
+        await delete_old_result(m.chat.id)
+    except Exception:
+        pass
+
+    # Удаляем старый результат (повторное прохождение)
+    try:
+        await delete_old_result(m.chat.id)
+    except Exception:
+        pass
 
     # Сохраняем
     print(f"[DB] Save user {m.chat.id}...")
