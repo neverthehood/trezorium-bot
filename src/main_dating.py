@@ -503,19 +503,40 @@ async def start_health_server():
 
 
 async def main():
-    logging.basicConfig(level=logging.INFO)
+    # Настройка логирования в файл и консоль
+    log_format = "%(asctime)s | %(levelname)s | %(message)s"
+    logging.basicConfig(
+        level=logging.INFO,
+        format=log_format,
+        handlers=[
+            logging.StreamHandler(),
+            logging.FileHandler("bot.log", encoding="utf-8"),
+        ]
+    )
+    logger = logging.getLogger(__name__)
+    logger.info("Бот запускается...")
     
     # Запускаем health check сервер в фоне
     asyncio.create_task(start_health_server())
     
+    logger.info("Проверяю BOT_TOKEN...")
+    if not cfg.BOT_TOKEN:
+        logger.error("BOT_TOKEN не задан!")
+        return
+    logger.info("BOT_TOKEN присутствует")
+    
     bot = Bot(cfg.BOT_TOKEN)
     try:
         await bot.delete_webhook(drop_pending_updates=True)
-    except Exception:
-        pass
+        logger.info("Вебхук удалён")
+    except Exception as e:
+        logger.warning(f"Ошибка удаления вебхука: {e}")
     await set_commands(bot)
+    logger.info("Команды установлены")
+    
     dp = Dispatcher()
     dp.include_router(router)
+    logger.info("Роутер подключён, стартую polling...")
     print("Trezorium Dating запущен!")
     await dp.start_polling(bot)
 
