@@ -278,17 +278,22 @@ async def find_match(user_id, code, mods):
 @router.message(CommandStart())
 async def h_start(m: Message):
     welcome = (
-        "👋 *Trezorium* — сокровищница твоей половинки.\n\n"
-        "Я считаю, что каждый человек — уникальное сокровище "
-        "со своим типом мышления, чувств и энергии.\n"
-        "Большинство знакомств — лотерея. Я хочу, чтобы это была точная наука.\n\n"
+        "Привет! 👋\n\n"
+        "Меня зовут *Trezorium*.\n\n"
+        "«Trezorium» — это сокровищница. Я считаю, что каждый человек — уникальное сокровище "
+        "со своим типом мышления, чувств и энергии. Большинство знакомств — это лотерея. "
+        "Я хочу, чтобы это была точная наука.\n\n"
         "Я задам 12 вопросов, чтобы узнать твой типаж, и найду того, кто тебе подходит.\n\n"
-        "Первые 200 пользователей — *бесплатный доступ навсегда* 🎁"
+        "Первые 200 пользователей — *бесплатный доступ навсегда* 🎁\n\n"
+        "Поехали?"
     )
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[[InlineKeyboardButton(text="🚀 Начнём!", callback_data="start_onboarding")]]
-    )
-    await m.answer(welcome, reply_markup=keyboard, parse_mode="Markdown")
+    await m.answer(welcome, parse_mode="Markdown")
+
+    st = SessionState(chat_id=m.chat.id)
+    _sessions[m.chat.id] = st
+
+    q = bank.questions[0]
+    await send_question(m, st, q.id)
 
 
 @router.message(Command("help"))
@@ -366,83 +371,68 @@ async def h_confirm_delete(m: Message):
     )
 
 
-@router.callback_query(F.data == "start_onboarding")
-async def h_start_onboarding(cb: CallbackQuery):
-    await safe_answer(cb)
-    st = SessionState(chat_id=cb.message.chat.id)
-    _sessions[cb.message.chat.id] = st
-    
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="👦 Парень", callback_data="gender_M")],
-            [InlineKeyboardButton(text="👧 Девушка", callback_data="gender_F")],
-        ]
-    )
-    await cb.message.answer("🧑 *Ты парень или девушка?*", reply_markup=keyboard, parse_mode="Markdown")
-    st.waiting_for = "gender"
-
-
-@router.callback_query(F.data.startswith("gender_"))
-async def h_onboarding_gender(cb: CallbackQuery):
-    await safe_answer(cb)
-    st = _sessions.get(cb.message.chat.id)
-    if not st:
+@router.message(F.text & ~F.command)
+async def h_onboarding_text(m: Message):
+    """Сбор пола, возраста и предпочтений до начала теста."""
+    st = _sessions.get(m.chat.id)
+    if not st or not getattr(st, 'waiting_for', None):
         return
-    
-    gender = cb.data.split("_")[1]
-    st.gender = gender
-    
-    keyboard = InlineKeyboardMarkup(
-        inline_keyboard=[
-            [InlineKeyboardButton(text="👦 Парня", callback_data="looking_M")],
-            [InlineKeyboardButton(text="👧 Девушку", callback_data="looking_F")],
-            [InlineKeyboardButton(text="🤝 Обоих", callback_data="looking_A")],
-        ]
-    )
-    await cb.message.answer("🔍 *Кого ты ищешь?*", reply_markup=keyboard, parse_mode="Markdown")
-    st.waiting_for = "looking_for"
 
-
-@router.callback_query(F.data.startswith("looking_"))
-async def h_onboarding_looking(cb: CallbackQuery):
-    await safe_answer(cb)
-    st = _sessions.get(cb.message.chat.id)
-    if not st:
+    if st.waiting_for == "gender":
+        text = m.text.strip().lower()
+        if text in ("парень", "мужчина", "мужской", "м", "male"):
+            st.gender = "M"
+            await m.answer("А кого ты ищешь? *Парня* или *Девушку*?", parse_mode="Markdown")
+            st.waiting_for = "looking_for"
+        elif text in ("девушка", "женщина", "женский", "ж", "female"):
+            st.gender = "F"
+            await m.answer("А кого ты ищешь? *Парня* или *Девушку*?", parse_mode="Markdown")
+            st.waiting_for = "looking_for"
+        else:
+            await m.answer("Напиши *парень* или *девушка* 😊", parse_mode="Markdown")
         return
-    
-    st.looking_for = cb.data.split("_")[1]
-    
-    await cb.message.answer(
+
+    if st.waiting_for == "looking_for":
+        text = m.text.strip().lower()
+        if text in ("парня", "парень", "мужчина", "м", "male"):
+            st.looking_for = "M"
+            await ask_age(m, st)
+        elif text in ("девушку", "девушка", "женщина", "ж", "female"):
+            st.looking_for = "F"
+            await ask_age(m, st)
+        elif text in ("обоих", "всех", "любого", "любую", "любых"):
+            st.looking_for = "A"
+            await ask_age(m, st)
+        else:
+            await m.answer("Напиши *парня*, *девушку* или *обоих* 😊", parse_mode="Markdown")
+        return
+
+    if st.waiting_for == "age":
+        text = m.text.strip()
+        try:
+            age = int(text)
+            if age < 18:
+                await m.answer("⚠️ Trezorium — приложение 18+.")
+                return
+            if age > 120:
+                await m.answer("😊 Ну не может быть столько, напиши честно:")
+                return
+            st.age = age
+            st.waiting_for = None
+            # Начинаем тест
+            q = bank.questions[0]
+            await send_question(m, st, q.id)
+        except ValueError:
+            await m.answer("Напиши число — сколько тебе лет 😊")
+
+
+async def ask_age(m, st):
+    st.waiting_for = "age"
+    await m.answer(
         "🧑‍🎓 *Сколько тебе лет?*\n\n"
         "Напиши число (например: 25)",
         parse_mode="Markdown"
     )
-    st.waiting_for = "age"
-
-
-@router.message(F.text & ~F.command)
-async def h_onboarding_age(m: Message):
-    """Принимаем возраст текстом."""
-    st = _sessions.get(m.chat.id)
-    if not st or getattr(st, 'waiting_for', None) != "age":
-        return
-    
-    text = m.text.strip()
-    try:
-        age = int(text)
-        if age < 18:
-            await m.answer("⚠️ Trezorium — приложение 18+.")
-            return
-        if age > 120:
-            await m.answer("😊 Ну не может быть столько, напиши честно:")
-            return
-        st.age = age
-        st.waiting_for = None
-        # Начинаем тест
-        q = bank.questions[0]
-        await send_question(m, st, q.id)
-    except ValueError:
-        await m.answer("Напиши число — сколько тебе лет 😊")
 
 
 @router.callback_query(F.data.startswith("ans:"))
