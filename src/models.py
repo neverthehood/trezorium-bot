@@ -32,7 +32,7 @@ class SessionState(BaseModel):
     chat_id: int
     mode: Literal["child","teen","adult"] = "teen"
     gender: Optional[Literal["male","female","skip"]] = None
-    style: Literal["story"] = "story"                    # оставляем только истории
+    style: Literal["story"] = "story"
     length: Literal["express","standard","deep"] = "standard"
     vectors: dict = Field(default_factory=dict)
     top_vector: Optional[str] = None
@@ -52,3 +52,8 @@ class SessionState(BaseModel):
     report_ready: bool = False
     deep_block: List[str] = Field(default_factory=list)
     deep_index: Optional[int] = None
+    
+    # Dating onboarding fields
+    waiting_for: Optional[str] = None
+    looking_for: Optional[str] = None
+    age: int = 0
