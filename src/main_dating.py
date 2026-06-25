@@ -5,7 +5,7 @@ import asyncio
 import logging
 from aiogram import Bot, Dispatcher, F, Router
 from aiogram.filters import CommandStart, Command
-from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, BotCommand
 
 from src.config import cfg
 from src.question_loader import load_bank
@@ -114,12 +114,12 @@ async def send_question(m, st, qid):
     st.answers.setdefault(qid, {})
 
     lines = []
-    lines.append(q.text)
+    lines.append(f"*{q.text}*")
     lines.append("")
     for letter, o in enum_opts(q):
         lines.append(f"{letter}) {o.label}")
 
-    await m.answer("\n".join(lines), reply_markup=kb_single(q))
+    await m.answer("\n".join(lines), reply_markup=kb_single(q), parse_mode="Markdown")
 
 
 async def finish_test(m, st):
@@ -144,8 +144,8 @@ async def finish_test(m, st):
         traceback.print_exc()
 
     result_text = (
-        f"Ваш типаж: {human_name} ({code})\n\n"
-        f"{description}\n\n"
+        f"\U0001f9e9 *Твой типаж:* {human_name} (`{code}`)\n\n"
+        f"_{description}_\n\n"
     )
 
     match = await find_match(m.chat.id, code, raw_mods)
@@ -154,16 +154,17 @@ async def finish_test(m, st):
         match_user_id, match_code, match_mods, score = match
         match_name = TYPE_NAMES.get(match_code, match_code)
         result_text += (
-            f"Мы нашли твою половинку!\n\n"
-            f"Совместимость: {score:.0f}%\n"
-            f"Типаж: {match_name} ({match_code})\n\n"
+            f"\U0001f3af *Мы нашли твою половинку!*\n\n"
+            f"Совместимость: *{score:.0f}%*\n"
+            f"Типаж: {match_name} (`{match_code}`)\n\n"
             f"Напиши @{match_user_id} — вы созданы друг для друга!"
         )
     else:
         result_text += (
-            "Ищем твоё сокровище...\n\n"
+            "\U0001f50d *Ищем твоё сокровище...*\n\n"
             "Пока ты единственный в своём типаже. "
-            "Поделись результатом с друзьями!"
+            "Но скоро я найду того, кто тебе подходит!\n\n"
+            "А пока — поделись результатом с друзьями \U0001f447"
         )
 
     await m.answer(result_text)
@@ -206,15 +207,16 @@ async def find_match(user_id, code, mods):
 @router.message(CommandStart())
 async def h_start(m: Message):
     welcome = (
-        "Привет!\n\n"
-        "Меня зовут Trezorium.\n\n"
-        "Trezorium — это сокровищница. Я считаю, что каждый человек — уникальное сокровище "
-        "со своим типом мышления, чувств и энергии.\n\n"
+        "Привет! 👋\n\n"
+        "Меня зовут *Trezorium*.\n\n"
+        "«Trezorium» — это сокровищница. Я считаю, что каждый человек — уникальное сокровище "
+        "со своим типом мышления, чувств и энергии. Большинство знакомств — это лотерея. "
+        "Я хочу, чтобы это была точная наука.\n\n"
         "Я задам 12 вопросов, чтобы узнать твой типаж, и найду того, кто тебе подходит.\n\n"
-        "Первые 200 пользователей — бесплатный доступ навсегда!\n\n"
+        "Первые 200 пользователей — *бесплатный доступ навсегда* 🎁\n\n"
         "Поехали?"
     )
-    await m.answer(welcome)
+    await m.answer(welcome, parse_mode="Markdown")
 
     st = SessionState(chat_id=m.chat.id)
     _sessions[m.chat.id] = st
@@ -225,8 +227,17 @@ async def h_start(m: Message):
 
 @router.message(Command("help"))
 async def h_help(m: Message):
-    text = "Команды:\n/start — начать тест\n/daily — ежедневные вопросы\n/profile — мой профиль\n/delete_me — удалить данные\n/help — эта подсказка"
-    await m.answer(text)
+    help_text = (
+        "\U0001f916 *Trezorium — команды*\n\n"
+        "/start — начать тест\n"
+        "/daily — ежедневные вопросы\n"
+        "/profile — мой профиль\n"
+        "/agreement — пользовательское соглашение\n"
+        "/privacy — политика конфиденциальности\n"
+        "/delete_me — удалить данные\n"
+        "/help — эта подсказка"
+    )
+    await m.answer(help_text, parse_mode="Markdown")
 
 
 @router.message(Command("daily"))
@@ -253,17 +264,23 @@ async def h_profile(m: Message):
     mods_str = "\n".join(f"- {k}: {v:.1f}" for k, v in top_mods)
 
     profile = (
-        f"Твой профиль\n\n"
-        f"{human_name} ({code})\n"
-        f"{description}\n\n"
-        f"Основные черты:\n{mods_str}"
+        f"\U0001f464 *Твой профиль*\n\n"
+        f"\U0001f9e9 *{human_name}* (`{code}`)\n"
+        f"_{description}_\n\n"
+        f"\U0001f4ca *Основные черты:*\n{mods_str}\n\n"
+        f"\U0001f50d Ищем твоё сокровище..."
     )
-    await m.answer(profile)
+    await m.answer(profile, parse_mode="Markdown")
 
 
 @router.message(Command("delete_me"))
 async def h_delete(m: Message):
-    await m.answer("Для удаления данных напиши /confirm_delete")
+    await m.answer(
+        "\u26a0\ufe0f *Удаление данных*\n\n"
+        "Все твои ответы и профиль будут безвозвратно удалены.\n\n"
+        "Если уверен — напиши */confirm_delete*",
+        parse_mode="Markdown"
+    )
 
 
 @router.message(Command("confirm_delete"))
@@ -276,7 +293,11 @@ async def h_confirm_delete(m: Message):
     except Exception as e:
         print(f"[DB] Delete error: {e}")
     _sessions.pop(m.chat.id, None)
-    await m.answer("Все данные удалены. Чтобы вернуться, напиши /start")
+    await m.answer(
+        "\u2705 *Все данные удалены.*\n\n"
+        "Если захочешь вернуться — напиши /start",
+        parse_mode="Markdown"
+    )
 
 
 @router.callback_query(F.data.startswith("ans:"))
@@ -309,6 +330,19 @@ async def ans(cb: CallbackQuery):
         await finish_test(cb.message, st)
 
 
+async def set_commands(bot):
+    commands = [
+        BotCommand(command="start", description="Начать тест"),
+        BotCommand(command="daily", description="Ежедневные вопросы"),
+        BotCommand(command="profile", description="Мой профиль"),
+        BotCommand(command="agreement", description="Пользовательское соглашение"),
+        BotCommand(command="privacy", description="Политика конфиденциальности"),
+        BotCommand(command="delete_me", description="Удалить данные"),
+        BotCommand(command="help", description="Помощь"),
+    ]
+    await bot.set_my_commands(commands)
+
+
 async def main():
     logging.basicConfig(level=logging.INFO)
     bot = Bot(cfg.BOT_TOKEN)
@@ -316,6 +350,7 @@ async def main():
         await bot.delete_webhook(drop_pending_updates=True)
     except Exception:
         pass
+    await set_commands(bot)
     dp = Dispatcher()
     dp.include_router(router)
     print("Trezorium Dating запущен!")
