@@ -139,48 +139,67 @@ async def finish_test(m, st):
         pass
 
     # Сохраняем
-    print(f"[DB] Save user {m.chat.id}...")
+        print(f"[DB] Save user {m.chat.id}...")
     try:
-        gender = getattr(st, 'gender', '')
+        raw_gender = getattr(st, 'gender', '')
+        gender = "M" if raw_gender == "male" else "F" if raw_gender == "female" else ""
         age = getattr(st, 'age', 0)
-        looking_for = getattr(st, 'looking_for', '')
+        looking_for = getattr(st, 'looking_for', '') or ''
         u = await save_user(m.chat.id, m.from_user.username, gender=gender, age=age, looking_for=looking_for)
         print(f"[DB] User saved: {u}")
-        r = await save_result(m.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
+        raw_gender2 = getattr(st, 'gender', '')
+        gender2 = "M" if raw_gender2 == "male" else "F" if raw_gender2 == "female" else ""
+        r = await save_result(m.chat.id, code, st.vectors, raw_mods, gender=gender2, age=age, looking_for=looking_for)
         print(f"[DB] Result saved: {r}")
     except Exception as e:
         import traceback
         print(f"[DB] Error: {e}")
         traceback.print_exc()
 
-    result_text = (
-        f"\U0001f9e9 *Твой типаж:* {human_name} (`{code}`)\n\n"
-        f"_{description}_\n\n"
-    )
+    # Результат
+    result_lines = []
+    result_lines.append(f"\U0001f9e9 *Твой типаж:* {human_name}")
+    result_lines.append("")
+    result_lines.append(f"_{description}_")
+    result_lines.append("")
 
     match = await find_match(m.chat.id, code, raw_mods)
 
     if match:
         match_user_id, match_code, match_mods, score = match
         match_name = TYPE_NAMES.get(match_code, match_code)
-        result_text += (
-            f"\U0001f3af *Мы нашли твою половинку!*\n\n"
-            f"Совместимость: *{score:.0f}%*\n"
-            f"Типаж: {match_name} (`{match_code}`)\n\n"
-            f"Напиши @{match_user_id} — вы созданы друг для друга!"
-        )
+        result_lines.append("\U0001f3af *Мы нашли твою половинку!*")
+        result_lines.append("")
+        result_lines.append(f"Совместимость: *{score:.0f}%*")
+        result_lines.append(f"Типаж: {match_name}")
+        result_lines.append("")
+        result_lines.append(f"Напиши @{match_user_id} — вы созданы друг для друга!")
     else:
-        result_text += (
-            "\U0001f50d *Ищем твоё сокровище...*\n\n"
-            "Пока ты единственный в своём типаже. "
-            "Но скоро я найду того, кто тебе подходит!\n\n"
-            "А пока — поделись результатом с друзьями \U0001f447"
-        )
+        result_lines.append("\U0001f50d *Ищем твоё сокровище...*")
+        result_lines.append("")
+        result_lines.append("Пока ты единственный в своём типаже.")
+        result_lines.append("Но скоро я найду того, кто тебе подходит!")
+        result_lines.append("")
+        result_lines.append("\U0001f447 А пока — поделись результатом с друзьями!")
 
-    await m.answer(result_text)
+        # Предварительный результат + ежедневные вопросы
+        result_lines.append("")
+        result_lines.append("—")
+        result_lines.append("")
+        result_lines.append("\U0001f4c8 *Это предварительный результат!*")
+        result_lines.append("")
+        result_lines.append("Чтобы получить полный портрет и точный мэтч,")
+        result_lines.append("я буду задавать тебе по 4 вопроса каждый день.")
+        result_lines.append("")
+        result_lines.append(f"Прогресс: {len(st.answers)}/48")
+        result_lines.append("")
+        result_lines.append("Завтра будет новый блок — возвращайся! \U0001f525")
 
-    if not match:
         st.daily_mode = True
+
+    result_text = "\n".join(result_lines)
+
+    await m.answer(result_text, parse_mode="Markdown")
 
 
 async def find_match(user_id, code, mods):
@@ -389,8 +408,8 @@ async def h_onboarding_gender(cb: CallbackQuery):
     if not st:
         return
     
-    gender = cb.data.split("_")[1]
-    st.gender = gender
+        gender_raw = cb.data.split("_")[1]
+    st.gender = "male" if gender_raw == "M" else "female"
     
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
