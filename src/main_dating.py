@@ -408,8 +408,7 @@ async def h_onboarding_gender(cb: CallbackQuery):
     if not st:
         return
     
-        gender_raw = cb.data.split("_")[1]
-    st.gender = "male" if gender_raw == "M" else "female"
+        st.gender = "male" if cb.data.endswith("_M") else "female"
     
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
