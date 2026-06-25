@@ -1,0 +1,45 @@
+﻿{
+  "id": "stories_child_v4",
+  "title": "Истории — дети",
+  "questions": [
+    {
+      "id": "c_story_01",
+      "format": "single",
+      "tags": ["aud:child","style:story","quality:rich","domain:school"],
+      "text_child": "Поход в парк",
+      "intro_child": "Класс собирается в парк наблюдать птиц. Учитель просит помочь с подготовкой.",
+      "options": [
+        {"id":"A","label_child":"Составлю план — кто за что отвечает.","weights":{"G":1.0,"mod_discipline":0.5}},
+        {"id":"B","label_child":"Придумаю весёлую игру-разминку.","weights":{"K":1.0,"mod_creative":0.6}},
+        {"id":"C","label_child":"Соберу рюкзак с нужными вещами и проверю всё по списку.","weights":{"T":1.0,"mod_settler":0.5}},
+        {"id":"D","label_child":"Помогу распределить ребят по парам и поддержу тех, кто волнуется.","weights":{"S":1.0,"mod_magnetic":0.6}}
+      ]
+    },
+    {
+      "id": "c_story_02",
+      "format": "single",
+      "tags": ["aud:child","style:story","quality:rich","domain:club"],
+      "text_child": "Ярмарка поделок",
+      "intro_child": "В кружке готовят школьную ярмарку. У кого-то получается не очень, время поджимает.",
+      "options": [
+        {"id":"A","label_child":"Покажу простой план — что и в какой очереди доделать.","weights":{"G":1.0}},
+        {"id":"B","label_child":"Украшу стол и придумаю приветствие для гостей.","weights":{"K":1.0,"mod_papillon":0.5}},
+        {"id":"C","label_child":"Сам(а) быстро доделаю пару вещей руками.","weights":{"T":1.0,"mod_action":0.7}},
+        {"id":"D","label_child":"Соберу команду и всем помогу по чуть-чуть.","weights":{"S":1.0}}
+      ]
+    },
+    {
+      "id": "c_story_03",
+      "format": "single",
+      "tags": ["aud:child","style:story","quality:rich","domain:friends"],
+      "text_child": "Квест во дворе",
+      "intro_child": "Друзья делают квест для соседских ребят. Нужно быстро запустить игру.",
+      "options": [
+        {"id":"A","label_child":"Нарисую карту и правила.","weights":{"G":1.0,"mod_discipline":0.5}},
+        {"id":"B","label_child":"Придумаю историю и ведущую роль.","weights":{"K":1.0,"mod_creative":0.7}},
+        {"id":"C","label_child":"Сделаю нужный инвентарь из подручных вещей.","weights":{"T":1.0,"mod_settler":0.5}},
+        {"id":"D","label_child":"Организую команды и прослежу, чтобы всем было комфортно.","weights":{"S":1.0,"mod_magnetic":0.6}}
+      ]
+    }
+  ]
+}

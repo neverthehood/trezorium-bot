@@ -1,0 +1,326 @@
+# src/main_dating.py
+# Trezorium Dating Bot
+
+import asyncio
+import logging
+from aiogram import Bot, Dispatcher, F, Router
+from aiogram.filters import CommandStart, Command
+from aiogram.types import Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
+
+from src.config import cfg
+from src.question_loader import load_bank
+from src.models import SessionState
+from src.mods import compute_mods
+from src.indotype_resolver import resolve_indotype
+from src.gpt_messages import generate_first_message
+from src.supabase_client import save_user, save_result, get_all_results
+
+router = Router()
+
+bank = load_bank("pack_dating_v1.json")
+
+_sessions = {}
+
+LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+ONBOARDING_COUNT = 12
+
+TYPE_NAMES = {
+    "G1AA": "Профессор", "G1AB": "Лаборант", "G1BA": "Философ", "G1BB": "Писатель",
+    "G2AA": "Инженер", "G2AB": "Механик", "G2BA": "Блогер", "G2BB": "Полиглот",
+    "S1AA": "Романтик", "S1AB": "Альтруист", "S1BA": "Лидер", "S1BB": "Душа компании",
+    "S2AA": "Перфекционист", "S2AB": "Рекордсмен", "S2BA": "Воин", "S2BB": "Роковая личность",
+    "T1AA": "Экстремал", "T1AB": "Марафонец", "T1BA": "Артист", "T1BB": "Спасатель",
+    "T2AA": "Садовник", "T2AB": "Строитель", "T2BA": "Музыкант", "T2BB": "Ювелир",
+    "K1AA": "Изобретатель", "K1AB": "Проводник", "K1BA": "Мастер-самоделкин", "K1BB": "Бионик",
+    "K2AA": "Художник", "K2AB": "Скульптор", "K2BA": "Режиссёр", "K2BB": "Бунтарь",
+}
+
+TYPE_DESCRIPTIONS = {
+    "G1AA": "Ты — стратег. Видишь общую картину там, где остальные видят буквы. В отношениях ищешь партнёра, с которым можно обсудить теорию струн за утренним кофе.",
+    "G1AB": "Ты — Лаборант. Любишь детали, точность и порядок. В отношениях ценишь надёжность и предсказуемость.",
+    "G1BA": "Ты — Философ. Вечно ищешь смысл во всём. Ищешь того, кто поймёт твои сложные мысли без лишних слов.",
+    "G1BB": "Ты — Писатель. Слова — твоя стихия. В отношениях — романтик-интеллектуал.",
+    "G2AA": "Ты — Инженер. Любишь, когда всё работает. Практичный, надёжный, с лёгким налётом ворчливости.",
+    "G2AB": "Ты — Механик. Любишь разбираться, как устроен мир. Ищешь того, кто оценит твою способность починить всё, кроме своей личной жизни.",
+    "G2BA": "Ты — Блогер. Умеешь рассказывать истории. В отношениях ищешь со-автора.",
+    "G2BB": "Ты — Полиглот. Понимаешь всех и говоришь на языке каждого. В паре ты — дипломат и миротворец.",
+    "S1AA": "Ты — Романтик. Веришь в любовь до гроба. Ищешь того, кто не разобьёт твоё хрупкое сердце.",
+    "S1AB": "Ты — Альтруист. Помогать другим — твоё призвание. Ищи того, кто умеет принимать заботу и отвечать тем же.",
+    "S1BA": "Ты — Лидер. У тебя есть харизма и видение. В отношениях нужен партнёр, который не боится твоей силы.",
+    "S1BB": "Ты — Душа компании. Твоя суперсила — располагать к себе людей.",
+    "S2AA": "Ты — Перфекционист. Всё должно быть идеально. Ищешь партнёра, который выдержит твои стандарты.",
+    "S2AB": "Ты — Рекордсмен. Ставишь цели и достигаешь их. В отношениях ищешь того, кто будет болеть за тебя.",
+    "S2BA": "Ты — Воин. Защищаешь тех, кто тебе дорог. В паре ты — надёжный тыл.",
+    "S2BB": "Ты — Роковая личность. Твоя энергия притягивает и пугает одновременно.",
+    "T1AA": "Ты — Экстремал. Тебе нужен адреналин. В паре нужен человек, который не будет просить тебя успокоиться.",
+    "T1AB": "Ты — Марафонец. Выносливый, упёртый, идёшь до конца. В отношениях стабилен и надёжен.",
+    "T1BA": "Ты — Артист. Любишь быть в центре внимания. Ищешь зрителя, который будет аплодировать стоя.",
+    "T1BB": "Ты — Спасатель. Бросаешься помогать всем подряд. Ищи того, кто спасёт тебя от самого себя.",
+    "T2AA": "Ты — Садовник. Любишь выращивать — растения, идеи, отношения. Ищешь партнёра, с которым хочется расти вместе.",
+    "T2AB": "Ты — Строитель. Созидатель по натуре. Ищешь партнёра, с которым можно построить общее будущее.",
+    "T2BA": "Ты — Музыкант. Тонко воспринимаешь красоту. В отношениях ищешь гармонии.",
+    "T2BB": "Ты — Ювелир. Точность, терпение, внимание к каждой детали. В отношениях разборчив.",
+    "K1AA": "Ты — Изобретатель. Генерируешь идеи пачками. В отношениях ищешь того, кто не скажет это невозможно.",
+    "K1AB": "Ты — Проводник. Видишь то, что скрыто от других. Ищешь попутчика для этого путешествия.",
+    "K1BA": "Ты — Мастер-самоделкин. Твои руки и голова работают в связке.",
+    "K1BB": "Ты — Бионик. Вдохновляешься природой и технологиями. В отношениях ищешь естественности и глубины.",
+    "K2AA": "Ты — Художник. Видишь мир в цвете и форме. Ищешь музу, а не просто партнёра.",
+    "K2AB": "Ты — Скульптор. Из любого материала делаешь шедевр. Ищешь того, кто позволит себя лепить.",
+    "K2BA": "Ты — Режиссёр. Организуешь хаос. В отношениях ставишь спектакль для двоих.",
+    "K2BB": "Ты — Бунтарь. Не потому что модно, а потому что иначе не умеешь.",
+}
+
+
+def find_q(qid: str):
+    for q in bank.questions:
+        if q.id == qid:
+            return q
+    return None
+
+
+def enum_opts(q):
+    return [(LETTERS[i], o) for i, o in enumerate(q.options)]
+
+
+def kb_single(q):
+    rows, row = [], []
+    for i, (letter, o) in enumerate(enum_opts(q), 1):
+        row.append(InlineKeyboardButton(text=letter, callback_data=f"ans:{q.id}:{o.id}"))
+        if i % 2 == 0:
+            rows.append(row)
+            row = []
+    if row:
+        rows.append(row)
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+
+async def safe_answer(cb, text=None):
+    try:
+        if text:
+            await cb.answer(text)
+        else:
+            await cb.answer()
+    except Exception:
+        pass
+
+
+async def send_question(m, st, qid):
+    q = find_q(qid)
+    if not q:
+        await m.answer("Что-то пошло не так...")
+        return
+
+    st.asked.append(qid)
+    st.answers.setdefault(qid, {})
+
+    lines = []
+    lines.append(q.text)
+    lines.append("")
+    for letter, o in enum_opts(q):
+        lines.append(f"{letter}) {o.label}")
+
+    await m.answer("\n".join(lines), reply_markup=kb_single(q))
+
+
+async def finish_test(m, st):
+    mods_result = compute_mods(st.answers, bank, st.vectors)
+    raw_mods = mods_result.get("raw", {})
+
+    indotype = resolve_indotype(mods_result)
+    code = indotype.get("code", "—")
+    human_name = TYPE_NAMES.get(code, code)
+    description = TYPE_DESCRIPTIONS.get(code, "Уникальный типаж!")
+
+    # Сохраняем
+    print(f"[DB] Save user {m.chat.id}...")
+    try:
+        u = await save_user(m.chat.id, m.from_user.username)
+        print(f"[DB] User saved: {u}")
+        r = await save_result(m.chat.id, code, st.vectors, raw_mods)
+        print(f"[DB] Result saved: {r}")
+    except Exception as e:
+        import traceback
+        print(f"[DB] Error: {e}")
+        traceback.print_exc()
+
+    result_text = (
+        f"Ваш типаж: {human_name} ({code})\n\n"
+        f"{description}\n\n"
+    )
+
+    match = await find_match(m.chat.id, code, raw_mods)
+
+    if match:
+        match_user_id, match_code, match_mods, score = match
+        match_name = TYPE_NAMES.get(match_code, match_code)
+        result_text += (
+            f"Мы нашли твою половинку!\n\n"
+            f"Совместимость: {score:.0f}%\n"
+            f"Типаж: {match_name} ({match_code})\n\n"
+            f"Напиши @{match_user_id} — вы созданы друг для друга!"
+        )
+    else:
+        result_text += (
+            "Ищем твоё сокровище...\n\n"
+            "Пока ты единственный в своём типаже. "
+            "Поделись результатом с друзьями!"
+        )
+
+    await m.answer(result_text)
+
+    if not match:
+        st.daily_mode = True
+
+
+async def find_match(user_id, code, mods):
+    try:
+        all_results = await get_all_results()
+    except Exception:
+        return None
+
+    from src.matcher import compute_match, get_explanation
+
+    best_score = 0
+    best_match = None
+
+    for result in all_results:
+        if result["telegram_id"] == user_id:
+            continue
+        their_mods = result.get("mods", {})
+        if not their_mods:
+            continue
+        score = compute_match(mods, their_mods)
+        if score > best_score:
+            best_score = score
+            best_match = (result["telegram_id"], result["indotype_code"], their_mods, score)
+
+    if best_score >= 50:
+        return best_match
+    return None
+
+
+# ------------------------------------------------------------
+# Handlers
+# ------------------------------------------------------------
+
+@router.message(CommandStart())
+async def h_start(m: Message):
+    welcome = (
+        "Привет!\n\n"
+        "Меня зовут Trezorium.\n\n"
+        "Trezorium — это сокровищница. Я считаю, что каждый человек — уникальное сокровище "
+        "со своим типом мышления, чувств и энергии.\n\n"
+        "Я задам 12 вопросов, чтобы узнать твой типаж, и найду того, кто тебе подходит.\n\n"
+        "Первые 200 пользователей — бесплатный доступ навсегда!\n\n"
+        "Поехали?"
+    )
+    await m.answer(welcome)
+
+    st = SessionState(chat_id=m.chat.id)
+    _sessions[m.chat.id] = st
+
+    q = bank.questions[0]
+    await send_question(m, st, q.id)
+
+
+@router.message(Command("help"))
+async def h_help(m: Message):
+    text = "Команды:\n/start — начать тест\n/daily — ежедневные вопросы\n/profile — мой профиль\n/delete_me — удалить данные\n/help — эта подсказка"
+    await m.answer(text)
+
+
+@router.message(Command("daily"))
+async def h_daily(m: Message):
+    await m.answer("Ежедневные вопросы будут добавлены в следующем обновлении.")
+
+
+@router.message(Command("profile"))
+async def h_profile(m: Message):
+    try:
+        result = await get_latest_result(m.chat.id)
+    except Exception:
+        result = None
+    if not result:
+        await m.answer("Ты ещё не проходил тест. Напиши /start")
+        return
+
+    code = result.get("indotype_code", "—")
+    human_name = TYPE_NAMES.get(code, code)
+    description = TYPE_DESCRIPTIONS.get(code, "")
+
+    mods = result.get("mods", {})
+    top_mods = sorted(mods.items(), key=lambda x: -abs(x[1]))[:5]
+    mods_str = "\n".join(f"- {k}: {v:.1f}" for k, v in top_mods)
+
+    profile = (
+        f"Твой профиль\n\n"
+        f"{human_name} ({code})\n"
+        f"{description}\n\n"
+        f"Основные черты:\n{mods_str}"
+    )
+    await m.answer(profile)
+
+
+@router.message(Command("delete_me"))
+async def h_delete(m: Message):
+    await m.answer("Для удаления данных напиши /confirm_delete")
+
+
+@router.message(Command("confirm_delete"))
+async def h_confirm_delete(m: Message):
+    try:
+        from src.supabase_client import get_client
+        client = get_client()
+        client.table("results").delete().eq("telegram_id", m.chat.id).execute()
+        client.table("users").delete().eq("telegram_id", m.chat.id).execute()
+    except Exception as e:
+        print(f"[DB] Delete error: {e}")
+    _sessions.pop(m.chat.id, None)
+    await m.answer("Все данные удалены. Чтобы вернуться, напиши /start")
+
+
+@router.callback_query(F.data.startswith("ans:"))
+async def ans(cb: CallbackQuery):
+    _, qid, opt_id = cb.data.split(":", 2)
+    st = _sessions.get(cb.message.chat.id)
+    if not st:
+        await safe_answer(cb, "Начните с /start")
+        return
+    if st.answers.get(qid, {}).get("single"):
+        await safe_answer(cb, "Уже отвечено")
+        return
+    q = find_q(qid)
+    if not q:
+        await safe_answer(cb)
+        return
+    st.answers[qid]["single"] = opt_id
+    st.answers[qid]["answer"] = opt_id
+    opt = next((o for o in q.options if o.id == opt_id), None)
+    if opt:
+        from src.engine import apply_weights
+        apply_weights(st, opt.weights or {}, 1.0)
+    await safe_answer(cb)
+
+    asked_count = len(st.asked)
+    if asked_count < len(bank.questions):
+        next_q = bank.questions[asked_count]
+        await send_question(cb.message, st, next_q.id)
+    else:
+        await finish_test(cb.message, st)
+
+
+async def main():
+    logging.basicConfig(level=logging.INFO)
+    bot = Bot(cfg.BOT_TOKEN)
+    try:
+        await bot.delete_webhook(drop_pending_updates=True)
+    except Exception:
+        pass
+    dp = Dispatcher()
+    dp.include_router(router)
+    print("Trezorium Dating запущен!")
+    await dp.start_polling(bot)
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

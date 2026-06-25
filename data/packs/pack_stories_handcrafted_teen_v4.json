@@ -1,0 +1,45 @@
+﻿{
+  "id": "stories_teen_v4",
+  "title": "Истории — подростки",
+  "questions": [
+    {
+      "id": "t_story_01",
+      "format": "single",
+      "tags": ["aud:teen","style:story","quality:rich","domain:school"],
+      "text_teen": "Газета в последний момент",
+      "intro_teen": "Школьная газета задерживается. Нужен выпуск к утру: мало времени и не хватает материалов.",
+      "options": [
+        {"id":"A","label_teen":"Соберу редакционный план и распределю задачи.","weights":{"G":1.0,"mod_discipline":0.6}},
+        {"id":"B","label_teen":"Сделаю сильную обложку и заголовки.","weights":{"K":1.0,"mod_creative":0.8}},
+        {"id":"C","label_teen":"Беру один материал и довожу до готовности сам(а).","weights":{"T":1.0,"mod_action":0.8}},
+        {"id":"D","label_teen":"Сплотю команду, помогу тем, кто буксует.","weights":{"S":1.0,"mod_magnetic":0.7}}
+      ]
+    },
+    {
+      "id": "t_story_02",
+      "format": "single",
+      "tags": ["aud:teen","style:story","quality:rich","domain:club"],
+      "text_teen": "Подготовка к концерту",
+      "intro_teen": "Кружок готовит небольшой концерт: сцена, звук, зрители. Времени впритык.",
+      "options": [
+        {"id":"A","label_teen":"Сделаю тайм-план и порядок номеров.","weights":{"G":1.0}},
+        {"id":"B","label_teen":"Отвечу за подачу и настроение на сцене.","weights":{"K":1.0,"mod_papillon":0.6}},
+        {"id":"C","label_teen":"Проверю аппаратуру и помогу с реквизитом.","weights":{"T":1.0}},
+        {"id":"D","label_teen":"Организую встречу гостей и помогу команде за кулисами.","weights":{"S":1.0}}
+      ]
+    },
+    {
+      "id": "t_story_03",
+      "format": "single",
+      "tags": ["aud:teen","style:story","quality:rich","domain:friends"],
+      "text_teen": "Добровольческий проект",
+      "intro_teen": "Нужно быстро собрать мини-проект помощи приюту: пост, сбор, передача.",
+      "options": [
+        {"id":"A","label_teen":"Придумаю понятную схему сборов и отчётности.","weights":{"G":1.0,"mod_hinayana":0.4}},
+        {"id":"B","label_teen":"Сделаю яркий сторителлинг и посты.","weights":{"K":1.0,"mod_mahayana":0.5,"mod_creative":0.7}},
+        {"id":"C","label_teen":"Возьму на себя сбор и доставку вещей.","weights":{"T":1.0,"mod_settler":0.6}},
+        {"id":"D","label_teen":"Договорюсь с людьми и подключу знакомых.","weights":{"S":1.0,"mod_magnetic":0.6}}
+      ]
+    }
+  ]
+}

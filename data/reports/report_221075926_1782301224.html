@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>K1AA — Trezorium</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root { --ink: #1b1f23; --muted: #667085; --bg: #f0f2f5; --card: #ffffff; --accent: #3b82f6; --accent2: #8b5cf6; --green: #10b981; --red: #ef4444; --amber: #f59e0b; }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; color: var(--ink); font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+  body { background: var(--bg); padding: 0; }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 24px 16px; }
+  
+  /* Header */
+  .header { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: white; border-radius: 20px; padding: 32px; margin-bottom: 24px; }
+  .header h1 { font-size: 36px; margin: 0 0 4px; font-weight: 700; letter-spacing: -0.5px; }
+  .header .code-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 999px; font-size: 14px; margin-top: 8px; }
+  .header .subtitle { font-size: 20px; opacity: 0.95; margin: 8px 0 0; }
+  
+  /* Cards */
+  .card { background: var(--card); border-radius: 16px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); margin-bottom: 20px; }
+  .card h2 { font-size: 20px; margin: 0 0 16px; color: var(--muted); font-weight: 600; letter-spacing: -0.3px; }
+  .card h3 { font-size: 16px; margin: 16px 0 8px; color: var(--ink); font-weight: 600; }
+  
+  /* Vectors */
+  .vector-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .vector-label { min-width: 180px; }
+  .vector-label strong { font-size: 18px; margin-right: 8px; }
+  .vector-desc { color: var(--muted); font-size: 13px; }
+  .vector-bar-bg { flex: 1; height: 12px; background: #e5e7eb; border-radius: 999px; overflow: hidden; }
+  .vector-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 999px; transition: width 0.5s; }
+  .vector-value { min-width: 40px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  
+  /* Description */
+  .desc-text { font-size: 16px; line-height: 1.7; color: #374151; }
+  
+  /* Grid */
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .grid-3 { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+  .grid ul { padding-left: 18px; margin: 0; }
+  .grid li { margin-bottom: 6px; line-height: 1.5; }
+  .tag { display: inline-block; background: #eef2ff; color: #312e81; padding: 4px 12px; border-radius: 999px; margin: 3px 4px 3px 0; font-size: 13px; white-space: nowrap; }
+  .muted { color: var(--muted); }
+  
+  /* Modifiers */
+  .mod-group { margin-bottom: 20px; }
+  .mod-group h3 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 12px; }
+  .mod-item { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #f0f0f0; }
+  .mod-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .mod-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+  .mod-name { font-weight: 600; font-size: 15px; }
+  .mod-score { font-size: 14px; padding: 2px 10px; border-radius: 999px; background: #f3f4f6; font-weight: 600; }
+  .mod-bar-bg { height: 6px; background: #e5e7eb; border-radius: 999px; overflow: hidden; margin-bottom: 4px; }
+  .mod-bar { height: 100%; border-radius: 999px; transition: width 0.5s; }
+  .mod-bar-pos { background: var(--green); }
+  .mod-bar-neg { background: var(--amber); }
+  .mod-expl { font-size: 13px; color: var(--muted); }
+  
+  /* Footer */
+  .footer { text-align: center; color: var(--muted); font-size: 12px; padding: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  
+  <div class="header">
+    <h1>K1AA</h1>
+    <div class="subtitle">Инвентор-теоретик, естественник</div>
+    <div class="code-badge">Trezorium · Психологический профиль</div>
+  </div>
+
+  <div class="card">
+    <h2>Баланс векторов</h2>
+    
+            <div class="vector-row">
+                <div class="vector-label"><strong>G</strong><span class="vector-desc">Голова — анализ и логика</span></div>
+                <div class="vector-bar-bg">
+                    <div class="vector-bar" style="width:85%"></div>
+                </div>
+                <div class="vector-value">6.0</div>
+            </div>
+            <div class="vector-row">
+                <div class="vector-label"><strong>S</strong><span class="vector-desc">Сердце — эмпатия и связи</span></div>
+                <div class="vector-bar-bg">
+                    <div class="vector-bar" style="width:85%"></div>
+                </div>
+                <div class="vector-value">6.0</div>
+            </div>
+            <div class="vector-row">
+                <div class="vector-label"><strong>T</strong><span class="vector-desc">Руки — практика и действие</span></div>
+                <div class="vector-bar-bg">
+                    <div class="vector-bar" style="width:71%"></div>
+                </div>
+                <div class="vector-value">5.0</div>
+            </div>
+            <div class="vector-row">
+                <div class="vector-label"><strong>K</strong><span class="vector-desc">Креатив — воображение и идеи</span></div>
+                <div class="vector-bar-bg">
+                    <div class="vector-bar" style="width:100%"></div>
+                </div>
+                <div class="vector-value">7.0</div>
+            </div>
+  </div>
+
+  <div class="card">
+    <h2>Описание типа</h2>
+    <p class="desc-text">Революционер в точных науках.</p>
+    <p class="desc-text" style="margin-top:12px">Вы приносите смысл и свежий взгляд: способны переосмыслить задачу и предложить форму, которая увлечёт остальных. Хорошо чувствуете образ и подачу, умеете найти «крючок», который сделает проект живым и заметным. Легко соединяете далекие области, придумываете метафоры и простые истории. Вам важно пространство для эксперимента и право пробовать по-новому. В сильной команде вы — источник импульса и направления.</p>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Сильные стороны</h2>
+      <ul><li>Креативность и находчивость</li><li>Чувство формы и подачи</li><li>Способность объединять смыслы</li><li>Энергия запуска</li></ul>
+    </div>
+    <div class="card">
+      <h2>Возможные ловушки</h2>
+      <ul><li>Уход в идеи без доведения до результата</li><li>Быстрая потеря интереса к рутине</li><li>Риск усложнить, когда проще лучше</li></ul>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Полезно развивать</h2>
+      <ul><li>Доводить короткие формы до конца</li><li>Делать «черновой результат» раньше обсуждения</li><li>Искать партнёра-исполнителя/организатора для баланса</li></ul>
+    </div>
+    <div class="card">
+      <h2>Подходящие активности</h2>
+      <ul><li>Придумывание форматов и историй</li><li>Редактура и креативная подача</li><li>Брейнштормы и концептуальные сессии</li></ul>
+    </div>
+  </div>
+
+  
+  <div class="grid-3">
+    <div class="card">
+      <h2>Учебные предметы</h2>
+      <span class="tag">Литература</span><span class="tag">Искусство</span><span class="tag">Языки</span><span class="tag">МХК</span><span class="tag">История культуры</span>
+    </div>
+    <div class="card">
+      <h2>Профессии и роли</h2>
+      <span class="tag">Редактор</span><span class="tag">Сценарист</span><span class="tag">Концепт-дизайнер</span><span class="tag">Продюсер проектов</span><span class="tag">Коммуникационный стратег</span>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <h2>Модификаторы личности</h2>
+    
+        <div class="mod-group">
+            <h3>Стиль мышления</h3>
+            <div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Natural</span>
+                    <span class="mod-score">+7.8</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-pos" 
+                         style="width:100%"></div>
+                </div>
+                <div class="mod-expl">Склонность к конкретике, практике, естественному познанию через опыт</div>
+            </div><div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Theoretical</span>
+                    <span class="mod-score">+6.0</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-pos" 
+                         style="width:100%"></div>
+                </div>
+                <div class="mod-expl">Склонность к абстрактному мышлению, теории, общим принципам</div>
+            </div><div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Head</span>
+                    <span class="mod-score">+3.0</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-pos" 
+                         style="width:60.0%"></div>
+                </div>
+                <div class="mod-expl">Доминанта интеллектуальной сферы — анализа, логики, познания</div>
+            </div>
+        </div>
+        <div class="mod-group">
+            <h3>Социальный стиль</h3>
+            <div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Intro</span>
+                    <span class="mod-score">+16.0</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-pos" 
+                         style="width:100%"></div>
+                </div>
+                <div class="mod-expl">Энергия из уединения, склонность к глубокому самоанализу</div>
+            </div><div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Extro</span>
+                    <span class="mod-score">0.0</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-neg" 
+                         style="width:0.0%"></div>
+                </div>
+                <div class="mod-expl">Энергия из общения с людьми, склонность к активному взаимодействию</div>
+            </div>
+        </div>
+        <div class="mod-group">
+            <h3>Стиль планирования</h3>
+            <div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Spontaneous</span>
+                    <span class="mod-score">+10.0</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-pos" 
+                         style="width:100%"></div>
+                </div>
+                <div class="mod-expl">Предпочтение гибкости, импровизации, спонтанности</div>
+            </div><div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Planned</span>
+                    <span class="mod-score">+6.0</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-pos" 
+                         style="width:100%"></div>
+                </div>
+                <div class="mod-expl">Предпочтение структуры, планов, предсказуемости</div>
+            </div>
+        </div>
+        <div class="mod-group">
+            <h3>Дополнительные черты</h3>
+            <div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Creativity</span>
+                    <span class="mod-score">+7.0</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-pos" 
+                         style="width:100%"></div>
+                </div>
+                <div class="mod-expl">Доминанта творческой сферы — воображения, идей, новизны</div>
+            </div><div class="mod-item">
+                <div class="mod-header">
+                    <span class="mod-name">Inventor</span>
+                    <span class="mod-score">+4.2</span>
+                </div>
+                <div class="mod-bar-bg">
+                    <div class="mod-bar mod-bar-pos" 
+                         style="width:84.0%"></div>
+                </div>
+                <div class="mod-expl">Склонность к изобретательству и новаторству</div>
+            </div>
+        </div>
+  </div>
+
+  <div class="footer">
+    Trezorium · Отчёт сгенерирован автоматически · 48 ответов
+  </div>
+  
+</div>
+</body>
+</html>

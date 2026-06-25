@@ -1,0 +1,2508 @@
+{
+  "meta": {
+    "name": "Daily Deepener",
+    "version": "1.0",
+    "audience": "adult",
+    "style": "story",
+    "description": "Dopolnenie k osnovnomu testu - 36 voprosov"
+  },
+  "features": {},
+  "questions": [
+    {
+      "id": "1",
+      "format": "single",
+      "text": "Как вы прежде всего возьмётесь за дело?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Проанализирую все доступные данные, составлю логичный план действий.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Обсужу с коллегами, чтобы понять настроения и обеспечить поддержку команды.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Сразу перейду к активным действиям: начну пробовать разные подходы на практике.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Предложу нестандартную идею или креативный подход к проекту.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "2",
+      "format": "single",
+      "text": "Что вы сделаете в первую очередь?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Хладнокровно проанализирую его ситуацию и предложу логичное решение проблемы.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Постараюсь сопереживать и эмоционально поддержать друга, показывая понимание.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Дам практичный совет или активно помогу делом, чтобы сразу исправить ситуацию.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Поделюсь оригинальной метафорой или креативным взглядом, чтобы вдохновить друга.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "3",
+      "format": "single",
+      "text": "Как вы попытаетесь урегулировать ситуацию?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Выступлю объективным посредником: разложу проблему по полочкам и найду рациональное решение.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Уделю внимание чувствам обеих сторон, помогу им выговориться и понять друг друга.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Приму решительные меры: чётко пресеку конфликт и предложу конкретные шаги к примирению.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Попробую разрядить обстановку оригинальным подходом – например, юмором или нестандартным компромиссом.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "4",
+      "format": "single",
+      "text": "Как вы будете подходить к обучению?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Сначала изучу теорию и соберу максимум информации по теме.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Найду единомышленников или наставника, чтобы учиться вместе и получать поддержку.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Лучше сразу перейти к практике: начну делать и учиться на собственном опыте.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Попробую свой собственный творческий метод обучения, экспериментируя по ходу дела.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "5",
+      "format": "single",
+      "text": "Чем вы предпочтёте заняться?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Почитаю познавательную книгу или посмотрю документальный фильм, чтобы подпитать ум.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Встречусь с близкими или друзьями – общение с дорогими людьми меня наполняет.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Займусь активным отдыхом – отправлюсь на прогулку, займусь спортом или делами по дому.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Посвящу день творческому проекту – например, буду рисовать, сочинять или мастерить что-то оригинальное.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "6",
+      "format": "single",
+      "text": "Какой подход к путешествию вам ближе?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Тщательно продумать маршрут, собрать информацию о местах и всё спланировать заранее.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Поехать туда, где будут близкие мне люди, и наслаждаться временем вместе, независимо от места.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Отправиться в спонтанное приключение: минимум планов, максимум непредвиденных впечатлений и активностей.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Выбрать необычное направление или формат путешествия, чтобы получить уникальный творческий опыт.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "7",
+      "format": "single",
+      "text": "Какую роль вы, скорее всего, возьмёте на себя?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Аналитика и планировщика: разложу задачи, разработаю стратегию и распределю работу логично.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Наставника и миротворца: позабочусь о сплочённости команды и мотивации каждого участника.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Исполнителя-действующего лица: сразу возьмусь за конкретные задачи, чтобы продвинуть проект вперёд.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Генератора идей: предложу смелые новые идеи и креативные решения для проекта.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "8",
+      "format": "single",
+      "text": "На что вы прежде всего опираетесь при принятии решения?",
+      "options": [
+        {
+          "id": "A",
+          "label": "На логику и разум: взвешиваю все \"за\" и \"против\" и прогнозирую последствия.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "На зов сердца: прислушиваюсь к своим чувствам и тому, что эмоционально откликается.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "На внутренний \"инстинкт\" и ощущение телесного комфорта или дискомфорта от каждого варианта.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "На воображение: представляю различные творческие сценарии будущего и выбираю самый вдохновляющий.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "9",
+      "format": "single",
+      "text": "Что вам лучше всего помогает восстановиться?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Разобраться в причинах стресса и найти рациональное решение, чтобы устранить напряжение.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Выговориться близкому человеку или получить поддержку, поделившись чувствами.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Размяться: заняться спортом, прогуляться или физически выплеснуть напряжение.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Отвлечься на творчество: написать, нарисовать или придумать что-то, сменив фокус на воображение.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "10",
+      "format": "single",
+      "text": "Как вы планируете добиться успеха?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Разработаю чёткий план, изучу всю необходимую информацию и буду методично следовать ему.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Заручусь поддержкой друзей и коллег – совместными усилиями и вдохновением достигнем цели.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Приложу максимум труда и упорства на практике, возможно, жертвуя отдыхом ради результата.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Найду оригинальный подход или новое решение, чтобы вырваться вперёд нестандартным способом.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "11",
+      "format": "single",
+      "text": "На что вы обратите внимание в первую очередь?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Организую всё рационально: продуманный порядок, удобная систематизация вещей.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Создам уютную атмосферу: размещу значимые сердцу вещи на виду, чтобы пространство вызывало тёплые чувства.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Сосредоточусь на функциональности и комфорте: переставлю мебель для удобства, сразу что-то починю, если нужно.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Добавлю креативности: украшу пространство оригинальными деталями или элементами собственного творчества.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "12",
+      "format": "single",
+      "text": "Что вы, скорее всего, будете делать?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Завяжу интеллектуальный разговор или дискуссию, чтобы блеснуть своим умом.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Буду общаться душевно: узнавать людей, делиться историями и поддерживать тёплую атмосферу.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Приму участие в активных развлечениях: танцы, игры или любая движуха — я в деле.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Включусь в творческую часть веселья: может, спою в караоке или устрою шуточное выступление, чтобы всех удивить.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "13",
+      "format": "single",
+      "text": "Как вы отреагируете?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Спокойно и логично приведу контраргументы или факты, показывая свою точку зрения.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Мне станет неприятно на душе: постараюсь разобраться в своих чувствах или обсужу ситуацию с коллегой для поддержки.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Приму к сведению без лишних слов и буду действовать усерднее, доказывая всё делом.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Воспользуюсь этим как стимулом: придумаю нетривиальный способ улучшить результат и удивить начальника.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "14",
+      "format": "single",
+      "text": "Что вы подчеркнёте в первую очередь?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Свой интеллект и эрудицию: постараюсь блеснуть знаниями или остроумием.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Свою доброту и внимательность: проявлю искренний интерес к нему и дружелюбие.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Свою надёжность и энергичность: покажу, что я человек дела, на которого можно положиться.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Свою творческую сторону и уникальность: поделюсь необычным опытом или талантом.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "15",
+      "format": "single",
+      "text": "Какие занятия вам давались или нравились больше всего?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Учебные предметы, которые требовали мышления: математика, наука или логические задачи.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Общение и внеклассные активности: помогать одноклассникам, участвовать в школьных сообществах.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Спорт или практические занятия: физкультура, труд, что-то где можно подвигаться или применить руки.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Творческие кружки: рисование, музыка, сочинительство — всё, где можно проявить воображение.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "16",
+      "format": "single",
+      "text": "Какую тему вы предпочтёте?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Науку, технологии или аналитику — мне интересно разобраться в сложных вещах.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Истории из жизни людей и отношения — важно понять чувства и судьбы других.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Спорт, путешествия или советы для дома — люблю узнавать что-то прикладное и активное.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Искусство, культуру или новые тренды — меня привлекает всё креативное и необычное.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "17",
+      "format": "single",
+      "text": "Вас бы особенно обрадовало, что вас назвали...",
+      "options": [
+        {
+          "id": "A",
+          "label": "Очень умным и интеллектуально развитым человеком.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Добрым и чутким человеком, который всегда понимает других.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "Сильным, практичным человеком, на которого можно положиться.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "Творческой и нестандартной личностью с оригинальным взглядом.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "18",
+      "format": "single",
+      "text": "В большей степени вы движимы стремлением...",
+      "options": [
+        {
+          "id": "A",
+          "label": "К знаниям и пониманию истины – вам важно постоянно учиться новому.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "К любви и гармоничным отношениям – вы делаете многое ради близких и согласия.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "C",
+          "label": "К достижению осязаемых результатов – вам важно видеть конкретный плод своих усилий.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "D",
+          "label": "К самовыражению и созиданию нового – вы жаждете творить и привносить оригинальные идеи.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "19",
+      "format": "single",
+      "text": "Как вы проведёте это время?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Отправлюсь туда, где много людей: встречусь с друзьями или схожу в гости/на мероприятие – меня это зарядит.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 1.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Предпочту спокойный вечер дома наедине с собой или с самым близким человеком, чтобы восстановить силы в тишине.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 1.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "20",
+      "format": "single",
+      "text": "Как вы поведёте себя в новом окружении?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Буду активно знакомиться: завяжу разговоры со многими, мне интересно общаться со всеми подряд.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 1.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Держусь скромно: сначала присмотрюсь или пообщаюсь с одним-двумя людьми, кого знаю или кто сам подойдёт.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 1.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "21",
+      "format": "single",
+      "text": "Как вам комфортнее его выполнять?",
+      "options": [
+        {
+          "id": "A",
+          "label": "В команде единомышленников: мне нравится совместно обсуждать идеи и делить задачи.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 1.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Самостоятельно: я продуктивнее, когда работаю один, без необходимости постоянно взаимодействовать.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 1.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "22",
+      "format": "single",
+      "text": "Какой вариант вас больше привлекает?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Поехать большой компанией или присоединиться к групповому туру – веселее в обществе людей.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 1.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Отправиться в уединённое место или путешествовать небольшим кругом, чтобы спокойно насладиться временем.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 1.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "23",
+      "format": "single",
+      "text": "Какой вариант ближе вашему стилю жизни?",
+      "options": [
+        {
+          "id": "A",
+          "label": "У меня широкое круг знакомств и много друзей, со многими поддерживаю общение.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 1.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "У меня несколько близких друзей, а со многими остальными я общаюсь лишь эпизодически.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 1.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "24",
+      "format": "single",
+      "text": "Как вы обычно ведёте себя?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Часто первым высказываюсь, активно участвую в обсуждении – мне легко быть вовлечённым.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 1.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Скорее слушаю и наблюдаю, высказываюсь по делу, когда есть что важное добавить.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 1.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "25",
+      "format": "single",
+      "text": "Какой формат вам больше по душе?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Запишусь на групповые занятия или найду сообщество для обучения – мне важно взаимодействие в процессе.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 1.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Предпочту самостоятельное обучение в удобном темпе, без необходимости подстраиваться под группу.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 1.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "26",
+      "format": "single",
+      "text": "Как вы скорее справитесь с этим?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Обсужу свою проблему с другом или близким – мне важно выговориться и получить мнение со стороны.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 1.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Погружусь в себя и постараюсь разобраться самостоятельно, в тишине обдумывая ситуацию.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 1.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "27",
+      "format": "single",
+      "text": "С чего вы начнёте её решать?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Попытаюсь сначала понять общие принципы и изучу теорию, прежде чем действовать.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 1.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Буду пробовать разные практические шаги сразу, учась на ходу и на конкретных примерах.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 1.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "28",
+      "format": "single",
+      "text": "Каков ваш подход?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Внимательно прочитать инструкцию или теоретическое описание, чтобы разобраться как всё устроено.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 1.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Разобраться методом тыка: включить и опробовать в деле, обращаясь к инструкции только при необходимости.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 1.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "29",
+      "format": "single",
+      "text": "Какие темы вам интереснее поддерживать?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Люблю обсуждать абстрактные идеи, теории, философские вопросы, даже если они далеки от быта.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 1.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Мне интереснее конкретика: обсуждать реальные события, практические советы и случаи из жизни.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 1.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "30",
+      "format": "single",
+      "text": "Что скорее привлечёт ваше внимание?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Что-то заставляющее задуматься: научно-популярная литература, сложный сюжет или фантастика с глубокими идеями.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 1.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Что-то прикладное или основанное на реальности: практическое пособие, документальный фильм или жизненная история.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 1.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "31",
+      "format": "single",
+      "text": "Какое занятие вы предпочтёте?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Почитать или узнать что-то новое для ума, например, изучить новую концепцию или языки.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 1.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Заняться рукоделием, садом или любой деятельностью, где результат можно увидеть и потрогать.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 1.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "32",
+      "format": "single",
+      "text": "Что для вас весомее?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Общие принципы и идеи – я соотношу ситуацию с теоретическими знаниями и концепциями.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 1.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Конкретные факты и обстоятельства – я опираюсь на реалии момента и практическую целесообразность.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 1.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "33",
+      "format": "single",
+      "text": "На что вы обратите внимание в первую очередь?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Оценю концепцию с точки зрения теории: насколько идея логична, укладывается в общие принципы.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 1.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Подумаю о практической реализуемости: какие конкретные шаги и ресурсы нужны, как воплотить идею в жизнь.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 1.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "34",
+      "format": "single",
+      "text": "Как вы поступите?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Сначала разъясню ему общие принципы и теорию, чтобы он понял суть, прежде чем действовать.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 1.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Покажу всё на конкретном примере или дам сразу попробовать на практике, объясняя в процессе работы.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 1.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "35",
+      "format": "single",
+      "text": "Как вы поступите?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Заранее распланирую маршрут, подготовлю подробный список дел и вещей.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 1.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Особо не планирую детали: двигаюсь по ситуации, полагаясь на импровизацию по ходу.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 1.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "36",
+      "format": "single",
+      "text": "Как вы предпочитаете его организовать?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Ещё накануне распишу, чем займусь и когда, чтобы максимально эффективно провести время.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 1.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Никак специально не планирую: буду делать то, к чему появится настроение или необходимость в тот момент.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 1.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "37",
+      "format": "single",
+      "text": "Что скорее всего произойдёт?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Точно следую рецепту и инструкциям шаг за шагом, соблюдая пропорции.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 1.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Использую рецепт лишь как ориентир: по ходу могу импровизировать с ингредиентами и экспериментировать.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 1.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "38",
+      "format": "single",
+      "text": "Как вы отреагируете?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Мне будет сложно сорваться без подготовки – я предпочитаю заранее всё организовать, поэтому ощущу стресс от внезапности.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 1.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Обрадуюсь неожиданному повороту – люблю спонтанность и с готовностью поеду навстречу приключению.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 1.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "39",
+      "format": "single",
+      "text": "Какой стиль организации труда вам ближе?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Чёткий распорядок дня, понятные процессы и заранее спланированные задачи – так я чувствую себя увереннее.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 1.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Гибкий график и разнообразие – мне нравится, когда день складывается непредсказуемо и я могу переключаться между разными делами.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 1.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "40",
+      "format": "single",
+      "text": "Как вы подготовитесь?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Тщательно продумую и прописываю весь текст или план речи, репетирую заранее.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 1.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Готовлю лишь общие тезисы и импровизирую большую часть выступления, полагаясь на вдохновение момента.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 1.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "41",
+      "format": "single",
+      "text": "Как вы это сделаете?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Заранее продумаю и подготовлю всё до мелочей: программу, угощения, расписание – чтобы всё прошло по плану.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 1.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Особо не планирую сценарий: соберу людей, а дальше пусть всё идёт своим чередом, импровизация придаст шарм.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 1.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "42",
+      "format": "single",
+      "text": "Каков ваш подход?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Составлю чёткий план с этапами и сроками, буду двигаться шаг за шагом согласно этому плану.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 1.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Обрисую для себя общий ориентир, но далее буду действовать гибко, адаптируясь к обстоятельствам без подробного плана.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 1.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "43",
+      "format": "single",
+      "text": "Как вы скорее всего ему поможете?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Сяду с ним и помогу трезво проанализировать проблему, вместе логически найдём решение.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Подбодрю и поддержу эмоционально, выслушаю его переживания и постараюсь поднять настроение.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "44",
+      "format": "single",
+      "text": "Ваши действия в первую очередь:",
+      "options": [
+        {
+          "id": "A",
+          "label": "Спокойно прикинуть возможные причины поломки, подумать логически или позвонить знающему человеку за консультацией.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Выйти и попробовать самостоятельно починить на месте: открыть капот, покопаться в двигателе или найти другую практическую помощь.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "45",
+      "format": "single",
+      "text": "Что вы предложите, чтобы сдвинуться с места?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Применить строгий аналитический подход: разобью проблему на части и последовательно проверю каждую гипотезу.",
+          "weights": {
+            "G": 1.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Устроить мозговой штурм без ограничений: выдвинуть даже самые смелые и необычные идеи, возможно, решение окажется нестандартным.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "46",
+      "format": "single",
+      "text": "Как поступить?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Подойти, успокоить и утешить: выслушать, сказать тёплые слова поддержки.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Действовать по ситуации: например, предложить конкретную помощь или отвлечь каким-то занятием.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "47",
+      "format": "single",
+      "text": "Что вы подготовите в подарок?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Что-нибудь особенно душевное: пишу тёплое поздравительное письмо или сделаю жест, показывающий мои чувства.",
+          "weights": {
+            "G": 0.0,
+            "S": 1.0,
+            "T": 0.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Что-нибудь оригинальное собственными руками: например, творческий подарок или сюрприз, какого никто не ожидал.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    },
+    {
+      "id": "48",
+      "format": "single",
+      "text": "На что сделаете упор?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Займусь практическими улучшениями: приберусь, расчищу пространство, отремонтирую или переставлю мебель для удобства.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 1.0,
+            "K": 0.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        },
+        {
+          "id": "B",
+          "label": "Добавлю уникальности: сделаю своими руками элемент декора или творчески оформлю интерьер, чтобы вдохновлял.",
+          "weights": {
+            "G": 0.0,
+            "S": 0.0,
+            "T": 0.0,
+            "K": 1.0,
+            "mod_theoretical": 0.0,
+            "mod_natural": 0.0,
+            "mod_extro": 0.0,
+            "mod_intro": 0.0,
+            "mod_planned": 0.0,
+            "mod_spontaneous": 0.0
+          }
+        }
+      ],
+      "tags": []
+    }
+  ]
+}

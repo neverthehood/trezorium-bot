@@ -1,0 +1,12 @@
+{
+  "meta": {
+    "version": "0.1"
+  },
+  "weights": {
+    "single_choice": 1.0
+  },
+  "stages": [],
+  "finish": {
+    "neighbors": 2
+  }
+}

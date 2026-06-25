@@ -1,0 +1,457 @@
+from typing import Optional
+import asyncio
+import logging, datetime, random, time, json, os, hashlib
+from aiogram import Bot, Dispatcher, F, Router
+router = Router()
+from aiogram.exceptions import TelegramBadRequest
+from aiogram.filters import CommandStart, Command
+from aiogram.types import Message, CallbackQuery, BufferedInputFile, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram.types import FSInputFile
+
+from .config import cfg
+from .question_loader import load_catalog, load_bank
+from .models import SessionState, Question, Option
+from .engine import apply_weights, pick_result, vector_totals
+from .mods import compute_mods
+from .result_renderer import render_short_card, render_html_report
+
+bank = load_bank()
+_sessions = {}
+LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+
+async def safe_answer(cb, text: Optional[str] = None):
+    """РђРєРєСѓСЂР°С‚РЅРѕ РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ РЅР°Р¶Р°С‚РёРµ РёРЅР»Р°Р№РЅ-РєРЅРѕРїРєРё.
+    Р“Р°СЃРёС‚ TelegramBadRequest: query is too old/invalid id."""
+    try:
+        if text is None:
+            await safe_answer(cb, )
+        else:
+            await safe_answer(cb, text)
+    except TelegramBadRequest:
+        pass
+
+
+def find_q(qid: str) -> Optional[Question]:
+    for q in bank.questions:
+        if q.id == qid:
+            return q
+    return None
+
+def st_for(chat_id: int) -> SessionState:
+    st = _sessions.get(chat_id)
+    if not st:
+        st = SessionState(chat_id=chat_id)
+        _sessions[chat_id] = st
+    return st
+
+# РўРµРєСЃС‚С‹/Р»РµР№Р±Р»С‹ РїРѕ СЂРµР¶РёРјСѓ
+def q_text(q: Question, mode: str) -> str:
+    if mode == "child" and q.text_child:
+        return q.text_child
+    if mode == "teen" and q.text_teen:
+        return q.text_teen
+    return q.text or q.text_child or q.text_teen or "Р’РѕРїСЂРѕСЃ"
+
+def q_intro(q: Question, mode: str) -> str:
+    # РѕР±С‰РёР№ intro (РґР»СЏ РІР·СЂРѕСЃР»С‹С…) Рё СЃРїРµС†. РїРѕ Р°СѓРґРёС‚РѕСЂРёРё
+    if getattr(q, "intro", None):
+        return q.intro or ""
+    if mode == "child" and q.intro_child:
+        return q.intro_child
+    if mode == "teen" and q.intro_teen:
+        return q.intro_teen
+    return ""
+
+def opt_label(o: Option, mode: str) -> str:
+    if mode == "child" and o.label_child:
+        return o.label_child
+    if mode == "teen" and o.label_teen:
+        return o.label_teen
+    return o.label or o.label_child or o.label_teen or "Р’Р°СЂРёР°РЅС‚"
+
+def enum_opts(q: Question):
+    return [(LETTERS[i], o) for i, o in enumerate(q.options)]
+
+# РљР»Р°РІРёР°С‚СѓСЂС‹
+def kb_single(q: Question) -> InlineKeyboardMarkup:
+    rows, row = [], []
+    for i, (letter, o) in enumerate(enum_opts(q), 1):
+        row.append(InlineKeyboardButton(text=letter, callback_data=f"ans:{q.id}:{o.id}"))
+        if i % 2 == 0:
+            rows.append(row); row = []
+    if row: rows.append(row)
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+def kb_rank(q: Question, phase: str) -> InlineKeyboardMarkup:
+    rows, row = [], []
+    for i, (letter, o) in enumerate(enum_opts(q), 1):
+        row.append(InlineKeyboardButton(text=letter, callback_data=f"{phase}:{q.id}:{o.id}"))
+        if i % 2 == 0:
+            rows.append(row); row = []
+    if row: rows.append(row)
+    return InlineKeyboardMarkup(inline_keyboard=rows)
+
+# Р¤РёР»СЊС‚СЂ РІРѕРїСЂРѕСЃРѕРІ РїРѕ Р°СѓРґРёС‚РѕСЂРёРё Рё СЃС‚РёР»СЋ
+def _match_tags(q: Question, mode: str, style: str) -> bool:
+    tags = set(getattr(q, "tags", []) or [])
+    return (f"aud:{mode}" in tags) and (f"style:{style}" in tags)
+
+# РџРѕСЃС‚СЂРѕРµРЅРёРµ РјР°СЂС€СЂСѓС‚Р°
+def _rand(seed_str: str):
+    rnd = random.Random()
+    h = int(hashlib.sha256(seed_str.encode("utf-8")).hexdigest(), 16)
+    rnd.seed(h)
+    return rnd
+
+def build_route(sample_size: int, chat_id: int, mode: str, style: str) -> list:
+    # Р±РµСЂС‘Рј С‚РѕР»СЊРєРѕ single Рё С‚РѕР»СЊРєРѕ РїРѕ СЃС‚РёР»СЋ/Р°СѓРґРёС‚РѕСЂРёРё
+    singles = [q.id for q in bank.questions if q.format=='single' and _match_tags(q, mode, style)]
+    rnd = _rand(f"{chat_id}-{datetime.date.today().isoformat()}")
+    rnd.shuffle(singles)
+    return singles[:min(sample_size, len(singles))]
+
+
+
+
+def build_route_prefer_rich(sample_size: int, chat_id: int, mode: str, style: str) -> list:
+    # 1) СЃРѕР±РёСЂР°РµРј РїРѕ С„РёР»СЊС‚СЂСѓ Р°СѓРґРёС‚РѕСЂРёРё Рё СЃС‚РёР»СЏ
+    singles_all = [q for q in bank.questions if q.format == "single" and _match_tags(q, mode, style)]
+    bws_all     = [q for q in bank.questions if q.format == "rank_best_worst" and _match_tags(q, mode, style)]
+
+    # 2) РґРµР»РёРј РЅР° rich/РѕР±С‹С‡РЅС‹Рµ
+    singles_rich = [q.id for q in singles_all if "quality:rich" in (q.tags or [])]
+    singles_norm = [q.id for q in singles_all if "quality:rich" not in (q.tags or [])]
+    bws_rich     = [q.id for q in bws_all     if "quality:rich" in (q.tags or [])]
+    bws_norm     = [q.id for q in bws_all     if "quality:rich" not in (q.tags or [])]
+
+    # 3) РїРµСЂРµРјРµС€РёРІР°РµРј, СЃС‚Р°РІРёРј rich РїРµСЂРІС‹РјРё
+    rnd = _rand(f"{chat_id}-{datetime.date.today().isoformat()}")
+    rnd.shuffle(singles_rich); rnd.shuffle(singles_norm)
+    rnd.shuffle(bws_rich);     rnd.shuffle(bws_norm)
+
+    singles = (singles_rich + singles_norm)[:min(sample_size, len(singles_rich)+len(singles_norm))]
+    bws_ids = (bws_rich + bws_norm)
+
+    # 4) РІСЃС‚Р°РІРєРё best/worst РІ С‚СЂРµС‚СЊСЏС… РјР°СЂС€СЂСѓС‚Р°
+    route = []
+    if not singles:
+        route = bws_ids[:3]
+    else:
+        cut1 = max(5, len(singles)//3)
+        cut2 = max(cut1 + 5, (2*len(singles))//3)
+        for i, qid in enumerate(singles, 1):
+            route.append(qid)
+            if i == cut1 and len(bws_ids) >= 1: route.append(bws_ids[0])
+            if i == cut2 and len(bws_ids) >= 2: route.append(bws_ids[1])
+        if len(bws_ids) >= 3: route.append(bws_ids[2])
+    return route
+
+# РґРµР»Р°РµРј РµС‘ РѕСЃРЅРѕРІРЅРѕР№
+build_route = build_route_prefer_rich
+
+
+
+async def safe_answer(cb, text: Optional[str] = None):
+    """РђРєРєСѓСЂР°С‚РЅРѕ РїРѕРґС‚РІРµСЂР¶РґР°РµС‚ РЅР°Р¶Р°С‚РёРµ РёРЅР»Р°Р№РЅ-РєРЅРѕРїРєРё.
+    Р“Р°СЃРёС‚ TelegramBadRequest: query is too old/invalid id."""
+    try:
+        if text is None:
+            await cb.answer()
+        else:
+            await cb.answer(text)
+    except TelegramBadRequest:
+        pass
+
+def next_in_route(st: SessionState) -> Optional[str]:
+    asked = set(st.asked)
+    for qid in st.route_core:
+        if qid not in asked:
+            return qid
+    return None
+
+async def send_q(m: Message, st: SessionState, qid: str):
+    q = find_q(qid)
+    if not q:
+        await m.answer("Р’РѕРїСЂРѕСЃ РЅРµ РЅР°Р№РґРµРЅ"); return
+    st.asked.append(qid)
+    st.answers.setdefault(qid, {})
+    st.answers[qid]["_asked_ts"] = time.time()
+
+    lines = [f"*{q_text(q, st.mode)}*", ""]
+    intr = q_intro(q, st.mode).strip()
+    if intr: lines += [f"_{intr}_", ""]
+    for letter, o in enum_opts(q):
+        lines.append(f"{letter}) {opt_label(o, st.mode)}")
+    text = "\n".join(lines)
+
+    if q.format == "single":
+        await m.answer(text, reply_markup=kb_single(q), parse_mode="Markdown")
+    else:
+        text += "\n\nР’С‹Р±РµСЂРё: С‡С‚Рѕ *Р±Р»РёР¶Рµ РІСЃРµРіРѕ С‚РµР±Рµ*"
+        await m.answer(text, reply_markup=kb_rank(q, "best"), parse_mode="Markdown")
+async def finish_and_report(m, st):
+    """Финиш опроса: считаем результат, готовим HTML, шлём одним файлом."""
+    # Короткая карточка (если есть рендерер)
+    try:
+        vectors = vector_totals(st)
+    except Exception:
+        vectors = {}
+    try:
+        code = pick_result(vectors)
+    except Exception:
+        code = "—"
+    try:
+        short = render_short_card(code)
+        await m.answer(short)
+    except Exception:
+        # тихо: карточка не критична
+        pass
+
+    # Модификаторы (если получится): берём актуальный каталог
+    mods = {"raw": {}, "pairs": []}
+    try:
+        catalog = load_catalog(getattr(st, "mode", "teen"), getattr(st, "style", "classic"))
+        try:
+            mods = compute_mods(getattr(st, "answers", {}) or {}, catalog) or mods
+        except Exception:
+            pass
+    except Exception:
+        pass
+
+    # Сформируем HTML отчёт (поддержим разные сигнатуры)
+    html = "<h1>Отчёт</h1>"
+    try:
+        html = render_html_report(code, vectors, getattr(st, "answers", {}) or {}, [], mods)
+    except TypeError:
+        try:
+            html = render_html_report(code, vectors, getattr(st, "answers", {}) or {}, [])
+        except TypeError:
+            try:
+                html = render_html_report(code, vectors)
+            except Exception:
+                pass
+    except Exception:
+        pass
+
+    # Сохраняем и шлём одним документом
+    try:
+        import time, pathlib
+        reports_dir = pathlib.Path("data/reports"); reports_dir.mkdir(parents=True, exist_ok=True)
+        fname = f"report_{m.chat.id}_{int(time.time())}.html"
+        fpath = reports_dir / fname
+        fpath.write_text(html, encoding="utf-8")
+        await m.answer_document(FSInputFile(fpath, filename=fname), caption="Полная версия отчёта (HTML)")
+    except Exception:
+        # на крайний случай
+        try:
+            await m.answer(html[:3500])
+        except Exception:
+            await m.answer("Готово! (не удалось отправить файл отчёта)")
+
+async def after(m: Message, st: SessionState):
+    qid = next_in_route(st)
+    if qid is None:
+        await finish_and_report(m, st); return
+    await send_q(m, st, qid)
+
+# РњРµРЅСЋ
+def kb_audience() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Р”РµС‚Рё", callback_data="aud:child")],
+        [InlineKeyboardButton(text="РџРѕРґСЂРѕСЃС‚РєРё", callback_data="aud:teen")],
+        [InlineKeyboardButton(text="Р’Р·СЂРѕСЃР»С‹Рµ", callback_data="aud:adult")],
+    ])
+
+def kb_gender() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="РњСѓР¶СЃРєРѕР№", callback_data="gender:male")],
+        [InlineKeyboardButton(text="Р–РµРЅСЃРєРёР№", callback_data="gender:female")],
+        [InlineKeyboardButton(text="РќРµ СѓРєР°Р·С‹РІР°С‚СЊ", callback_data="gender:skip")],
+    ])
+
+def kb_length() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="Р­РєСЃРїСЂРµСЃСЃ", callback_data="len:express")],
+        [InlineKeyboardButton(text="РЎС‚Р°РЅРґР°СЂС‚", callback_data="len:standard")],
+        [InlineKeyboardButton(text="Р“Р»СѓР±РѕРєРёР№", callback_data="len:deep")],
+    ])
+
+async def intro_text(m: Message):
+    txt = (
+        "РџСЂР°РІРёР»СЊРЅС‹С… РѕС‚РІРµС‚РѕРІ РЅРµС‚ вЂ” РІС‹Р±РёСЂР°Р№ С‚Рѕ, С‡С‚Рѕ Р±Р»РёР¶Рµ С‚РµР±Рµ. РЈ С‚РµР±СЏ РІСЃС‘ РїРѕР»СѓС‡РёС‚СЃСЏ!"
+    )
+    await m.answer(txt, parse_mode="Markdown", reply_markup=kb_audience())
+
+def length_hint() -> str:
+    return (
+        "Р’С‹Р±РµСЂРё РѕР±СЉС‘Рј С‚РµСЃС‚Р°:\n\n"
+        "вЂў Р­РєСЃРїСЂРµСЃСЃ вЂ” РѕРєРѕР»Рѕ 24 РІРѕРїСЂРѕСЃРѕРІ (в‰€10вЂ“12 РјРёРЅСѓС‚)\n"
+        "вЂў РЎС‚Р°РЅРґР°СЂС‚ вЂ” РѕРєРѕР»Рѕ 48 РІРѕРїСЂРѕСЃРѕРІ (в‰€20вЂ“25 РјРёРЅСѓС‚)\n"
+        "вЂў Р“Р»СѓР±РѕРєРёР№ вЂ” РѕРєРѕР»Рѕ 72 РІРѕРїСЂРѕСЃРѕРІ (в‰€35вЂ“45 РјРёРЅСѓС‚)"
+    )
+
+async def main():
+    from .config import cfg
+    logging.basicConfig(level=logging.INFO, format='[%(levelname)s] %(name)s: %(message)s')
+    bot = Bot(cfg.BOT_TOKEN)
+    # РЅР° РІСЃСЏРєРёР№ вЂ” РІС‹РєР»СЋС‡РёРј РІРµР±С…СѓРє, С‡С‚РѕР±С‹ РІРєР»СЋС‡РёР»СЃСЏ long polling
+    try:
+        await bot.delete_webhook(drop_pending_updates=True)
+    except Exception as e:
+        logging.warning(f"delete_webhook failed: {e}")
+    dp = Dispatcher()
+    dp.include_router(router)
+    print("Bot is starting... (polling)")
+    # СЂР°Р·СЂРµС€С‘РЅРЅС‹Рµ С‚РёРїС‹ Р°РїРґРµР№С‚РѕРІ РёР· Р·Р°СЂРµРіРёСЃС‚СЂРёСЂРѕРІР°РЅРЅС‹С… С…СЌРЅРґР»РµСЂРѕРІ
+    allowed = dp.resolve_used_update_types()
+    await dp.start_polling(bot, allowed_updates=allowed)
+
+    def _plan_and_start(m: Message, st: SessionState) -> str:
+        samples = {"express": 24, "standard": 48, "deep": 72}
+        sample_n = samples.get(st.length, 48)
+        st.route_core = build_route(sample_n, m.chat.id, st.mode, st.style)
+        return "РќР°С‡РёРЅР°РµРј!"
+
+@router.message(CommandStart())
+async def start(m: Message):
+        st = SessionState(chat_id=m.chat.id, started_at=datetime.datetime.utcnow().isoformat()+"Z")
+        _sessions[m.chat.id]=st
+        await intro_text(m)
+
+@router.message(Command("reset"))
+async def reset(m: Message):
+        st = SessionState(chat_id=m.chat.id, started_at=datetime.datetime.utcnow().isoformat()+"Z")
+        _sessions[m.chat.id]=st
+        await m.answer("Начали заново.")
+        await intro_text(m)
+def kb_format():
+    from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton as B
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [B(text="Классика", callback_data="fmt:classic")],
+        [B(text="Истории",  callback_data="fmt:story")],
+    ])
+
+async def ask_format(m, st):
+    txt = (
+        "Выбери формат вопросов:\n\n"
+        "• Классика — короткие, чёткие ситуации.\n"
+        "• Истории — развернутые мини-сюжеты с погружением."
+    )
+    await m.answer(txt, reply_markup=kb_format())
+
+@router.callback_query(F.data.startswith("fmt:"))
+async def set_format(cb: CallbackQuery):
+    _, val = cb.data.split(":", 1)
+    st = st_for(cb.message.chat.id)
+    st.style = val if val in ("classic","story") else "classic"
+    await safe_answer(cb, "Ок")
+    await cb.message.answer(length_hint(), reply_markup=kb_length())
+
+@router.callback_query(F.data.startswith("aud:"))
+async def set_aud(cb: CallbackQuery):
+    _, val = cb.data.split(":", 1)
+    st = st_for(cb.message.chat.id)
+    st.mode = val if val in ("child","teen","adult") else "teen"
+    await safe_answer(cb, "Ок")
+    await cb.message.answer("Укажи пол.", reply_markup=kb_gender())
+
+
+@router.callback_query(F.data.startswith("gender:"))
+async def set_gender(cb: CallbackQuery):
+        _, val = cb.data.split(":",1)
+        st = st_for(cb.message.chat.id)
+        st.gender = val if val in ("male","female","skip") else "skip"
+        await safe_answer(cb, "Сохранено")
+        await ask_format(cb.message, st)
+
+@router.callback_query(F.data.startswith("len:"))
+async def set_length(cb: CallbackQuery):
+    _, val = cb.data.split(":", 1)
+    st = st_for(cb.message.chat.id)
+    st.length = val if val in ("express","standard","deep") else "standard"
+    await safe_answer(cb, "Объём выбран")
+    print(f"[DEBUG] set_length: length={st.length} mode={getattr(st,'mode',None)} style={getattr(st,'style',None)}")
+    intro = _plan_and_start(cb, st)
+    if not getattr(st, "route_core", None):
+        await cb.message.answer("Пока не нашлось вопросов для выбранных настроек. Попробуй другой формат/объём.")
+        return
+    print(f"[DEBUG] route size: {len(st.route_core)}")
+    await cb.message.answer("Начинаем!")
+    await cb.message.answer(intro)
+    await send_q(cb.message, st, st.route_core[0])
+
+@router.callback_query(F.data.startswith("len:"))
+def _plan_and_start(m, st=None):
+    """РџР»Р°РЅРёСЂСѓРµС‚ РјР°СЂС€СЂСѓС‚ РїРѕ РІС‹Р±СЂР°РЅРЅРѕРјСѓ РѕР±СЉС‘РјСѓ Рё СЂРµР¶РёРјР°Рј.
+    m вЂ” Message РР›Р CallbackQuery; st вЂ” SessionState РёР»Рё None."""
+    # Р”РѕСЃС‚Р°С‘Рј Message Рё chat_id РёР· Message Р»РёР±Рѕ РёР· CallbackQuery
+    msg = getattr(m, 'message', m)
+    chat = getattr(msg, 'chat', None)
+    chat_id = getattr(chat, 'id', None)
+    if st is None:
+        if chat_id is None:
+            raise RuntimeError('РќРµС‚ chat_id РґР»СЏ РІС‹Р±РѕСЂР° СЃРµСЃСЃРёРё')
+        st = st_for(chat_id)
+    # РћР±СЉС‘Рј в†’ РєРѕР»РёС‡РµСЃС‚РІРѕ РІРѕРїСЂРѕСЃРѕРІ
+    length = getattr(st, 'length', 'standard') or 'standard'
+    sample_map = {'express': 12, 'standard': 24, 'deep': 40}
+    sample_n = sample_map.get(length, 24)
+    # Р РµР¶РёРјС‹ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ
+    st.mode = getattr(st, 'mode', 'teen') or 'teen'
+    st.style = getattr(st, 'style', 'classic') or 'classic'
+    # РџР»Р°РЅРёСЂСѓРµРј РјР°СЂС€СЂСѓС‚
+    if chat_id is None:
+        chat_id = msg.chat.id
+    st.route_core = build_route(sample_n, chat_id, st.mode, st.style)
+        # РµСЃР»Рё РїРѕ РІС‹Р±СЂР°РЅРЅС‹Рј РїР°СЂР°РјРµС‚СЂР°Рј РјР°СЂС€СЂСѓС‚ РїСѓСЃС‚ вЂ” РїРѕРїСЂРѕР±СѓРµРј Р°Р»СЊС‚РµСЂРЅР°С‚РёРІРЅС‹Р№ С„РѕСЂРјР°С‚
+    if not getattr(st, 'route_core', None):
+        alt = 'classic' if st.style == 'story' else 'story'
+        try:
+            st.route_core = build_route(sample_n, chat_id, st.mode, alt)
+            st.style = alt if st.route_core else st.style
+        except Exception:
+            pass
+
+    return 'РќР°С‡РёРЅР°РµРј!'
+
+
+
+async def set_length(cb: CallbackQuery):
+        _, val = cb.data.split(":",1)
+        st = st_for(cb.message.chat.id)
+        st.length = val if val in ("express","standard","deep") else "standard"
+        await safe_answer(cb, "Объём выбран")
+        intro = _plan_and_start(cb.message, st)
+        await cb.message.answer(intro)
+        await send_q(cb.message, st, st.route_core[0])
+
+@router.callback_query(F.data.startswith("ans:"))
+async def ans(cb: CallbackQuery):
+        _, qid, opt_id = cb.data.split(":",2)
+        st = st_for(cb.message.chat.id); q = find_q(qid)
+        opt = next((o for o in q.options if o.id==opt_id), None)
+        apply_weights(st, opt.weights, 1.0)
+        asked = st.answers.get(qid,{}).get("_asked_ts")
+        if asked: st.answers[qid]["single_ms"] = int((time.time()-asked)*1000)
+        await safe_answer(cb, f"Выбрано: {opt_label(opt, st.mode)}")
+        await after(cb.message, st)
+
+
+
+def length_hint() -> str:
+    return (
+        "Выбери объём теста:\n\n"
+        "• Экспресс — около 24 вопросов (≈10–12 минут)\n"
+        "• Стандарт — около 48 вопросов (≈20–25 минут)\n"
+        "• Глубокий — около 72 вопросов (≈35–45 минут)"
+    )
+
+
+def length_hint() -> str:
+    return (
+        "Выбери объём теста:\n\n"
+        "• Экспресс — около 24 вопросов (≈10–12 минут)\n"
+        "• Стандарт — около 48 вопросов (≈20–25 минут)\n"
+        "• Глубокий — около 72 вопросов (≈35–45 минут)"
+    )
