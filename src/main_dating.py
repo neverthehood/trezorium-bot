@@ -13,7 +13,7 @@ from src.models import SessionState
 from src.mods import compute_mods
 from src.indotype_resolver import resolve_indotype
 from src.gpt_messages import generate_first_message
-from src.supabase_client import save_user, save_result, get_all_results, delete_old_result, delete_old_result
+from src.supabase_client import save_user, save_result, get_all_results, delete_old_result, get_user
 
 router = Router()
 
@@ -137,18 +137,15 @@ async def finish_test(m, st):
     except Exception:
         pass
 
-    # Удаляем старый результат (повторное прохождение)
-    try:
-        await delete_old_result(m.chat.id)
-    except Exception:
-        pass
-
     # Сохраняем
     print(f"[DB] Save user {m.chat.id}...")
     try:
-        u = await save_user(m.chat.id, m.from_user.username)
+        gender = getattr(st, 'gender', '')
+        age = getattr(st, 'age', 0)
+        looking_for = getattr(st, 'looking_for', '')
+        u = await save_user(m.chat.id, m.from_user.username, gender=gender, age=age, looking_for=looking_for)
         print(f"[DB] User saved: {u}")
-        r = await save_result(m.chat.id, code, st.vectors, raw_mods)
+        r = await save_result(m.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
         print(f"[DB] Result saved: {r}")
     except Exception as e:
         import traceback
@@ -192,20 +189,81 @@ async def find_match(user_id, code, mods):
         return None
 
     from src.matcher import compute_match, get_explanation
+    from datetime import datetime, timedelta
+
+    st = _sessions.get(user_id)
+    user_gender = getattr(st, 'gender', '') if st else ''
+    user_looking = getattr(st, 'looking_for', '') if st else ''
+
+    if not user_gender or not user_looking:
+        # Пробуем из БД
+        try:
+            user_data = await get_user(user_id)
+            if user_data:
+                user_gender = user_data.get('gender', '')
+                user_looking = user_data.get('looking_for', '')
+        except Exception:
+            pass
 
     best_score = 0
     best_match = None
+    now = datetime.utcnow()
 
     for result in all_results:
         if result["telegram_id"] == user_id:
             continue
+
+        tid = result["telegram_id"]
+
+        # Проверка на блокировку 7 дней
+        try:
+            from src.supabase_client import get_client
+            client = get_client()
+            block = client.table("match_blocks") \
+                .select("*") \
+                .eq("user_id", user_id) \
+                .eq("blocked_user_id", tid) \
+                .execute()
+            if block.data:
+                blocked_at = block.data[0].get("created_at")
+                if blocked_at:
+                    # Парсим ISO дату
+                    btime = blocked_at
+                    if isinstance(btime, str):
+                        btime = btime.replace('Z', '+00:00')
+                        from dateutil import parser
+                        btime = parser.parse(btime)
+                    if (now - btime).days < 7:
+                        continue
+        except Exception:
+            pass
+
+        # Фильтр по полу
+        their_gender = result.get("gender", "")
+        their_looking = result.get("looking_for", "")
+
+        # match: gender M -> looking_for F (ищем девушек)
+        # user_looking A — подходят все
+        if user_looking != "A":
+            if their_gender != user_looking:
+                continue
+        if their_looking != "A" and their_looking not in ("A", user_gender):
+            continue
+
+        # Фильтр по возрасту (плюс-минус 5 лет)
+        user_age = getattr(st, 'age', 0) if st else 0
+        their_age = result.get("age", 0)
+        if user_age and their_age:
+            if abs(user_age - their_age) > 5:
+                continue
+
         their_mods = result.get("mods", {})
         if not their_mods:
             continue
         score = compute_match(mods, their_mods)
         if score > best_score:
             best_score = score
-            best_match = (result["telegram_id"], result["indotype_code"], their_mods, score)
+            best_match = (tid, result["indotype_code"], their_mods, score)
 
     if best_score >= 50:
         return best_match
@@ -308,6 +366,70 @@ async def h_confirm_delete(m: Message):
     await m.answer(
         "\u2705 *Все данные удалены.*\n\n"
         "Если захочешь вернуться — напиши /start",
+        parse_mode="Markdown"
+    )
+
+
+@router.message(F.text & ~F.command)
+async def h_onboarding_text(m: Message):
+    """Сбор пола, возраста и предпочтений до начала теста."""
+    st = _sessions.get(m.chat.id)
+    if not st or not getattr(st, 'waiting_for', None):
+        return
+
+    if st.waiting_for == "gender":
+        text = m.text.strip().lower()
+        if text in ("парень", "мужчина", "мужской", "м", "male"):
+            st.gender = "M"
+            await m.answer("А кого ты ищешь? *Парня* или *Девушку*?", parse_mode="Markdown")
+            st.waiting_for = "looking_for"
+        elif text in ("девушка", "женщина", "женский", "ж", "female"):
+            st.gender = "F"
+            await m.answer("А кого ты ищешь? *Парня* или *Девушку*?", parse_mode="Markdown")
+            st.waiting_for = "looking_for"
+        else:
+            await m.answer("Напиши *парень* или *девушка* 😊", parse_mode="Markdown")
+        return
+
+    if st.waiting_for == "looking_for":
+        text = m.text.strip().lower()
+        if text in ("парня", "парень", "мужчина", "м", "male"):
+            st.looking_for = "M"
+            await ask_age(m, st)
+        elif text in ("девушку", "девушка", "женщина", "ж", "female"):
+            st.looking_for = "F"
+            await ask_age(m, st)
+        elif text in ("обоих", "всех", "любого", "любую", "любых"):
+            st.looking_for = "A"
+            await ask_age(m, st)
+        else:
+            await m.answer("Напиши *парня*, *девушку* или *обоих* 😊", parse_mode="Markdown")
+        return
+
+    if st.waiting_for == "age":
+        text = m.text.strip()
+        try:
+            age = int(text)
+            if age < 18:
+                await m.answer("⚠️ Trezorium — приложение 18+.")
+                return
+            if age > 120:
+                await m.answer("😊 Ну не может быть столько, напиши честно:")
+                return
+            st.age = age
+            st.waiting_for = None
+            # Начинаем тест
+            q = bank.questions[0]
+            await send_question(m, st, q.id)
+        except ValueError:
+            await m.answer("Напиши число — сколько тебе лет 😊")
+
+
+async def ask_age(m, st):
+    st.waiting_for = "age"
+    await m.answer(
+        "🧑‍🎓 *Сколько тебе лет?*\n\n"
+        "Напиши число (например: 25)",
         parse_mode="Markdown"
     )
 

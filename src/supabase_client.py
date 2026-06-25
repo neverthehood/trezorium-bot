@@ -25,12 +25,21 @@ def get_client() -> Client:
 
 # ---- Пользователи ----
 
-async def save_user(telegram_id: int, username: Optional[str] = None) -> dict:
+async def save_user(
+    telegram_id: int,
+    username: Optional[str] = None,
+    gender: str = "",
+    age: int = 0,
+    looking_for: str = ""
+) -> dict:
     """Создаёт или обновляет пользователя."""
     client = get_client()
     data = {
         "telegram_id": telegram_id,
         "username": username or "",
+        "gender": gender,
+        "age": age,
+        "looking_for": looking_for,
         "updated_at": "now()"
     }
     # UPSERT
@@ -53,7 +62,10 @@ async def save_result(
     telegram_id: int,
     indotype_code: str,
     vectors: Dict[str, float],
-    mods: Dict[str, float]
+    mods: Dict[str, float],
+    gender: str = "",
+    age: int = 0,
+    looking_for: str = ""
 ) -> dict:
     """Сохраняет результат теста пользователя."""
     client = get_client()
@@ -61,7 +73,10 @@ async def save_result(
         "telegram_id": telegram_id,
         "indotype_code": indotype_code,
         "vectors": vectors,
-        "mods": mods
+        "mods": mods,
+        "gender": gender,
+        "age": age,
+        "looking_for": looking_for
     }
     result = client.table("results").insert(data).execute()
     return result.data[0] if result.data else {}
