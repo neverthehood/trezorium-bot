@@ -397,7 +397,7 @@ async def h_start_onboarding(cb: CallbackQuery):
             [InlineKeyboardButton(text="👧 Девушка", callback_data="gender_F")],
         ]
     )
-    await cb.message.answer("🧑 *Ты парень или девушка?*", reply_markup=keyboard, parse_mode="Markdown")
+    await cb.message.answer("*Ты парень или девушка?*", reply_markup=keyboard, parse_mode="Markdown")
     st.waiting_for = "gender"
 
 
