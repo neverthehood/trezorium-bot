@@ -11,9 +11,12 @@ except Exception:
     pass
 
 def _read_token() -> str:
-    # Загружаем .env из корня проекта
+    # 1. Сначала переменные окружения (Render, хостинг)
+    token = os.getenv("BOT_TOKEN", "")
+    if token:
+        return token
+    # 2. Загружаем .env из корня проекта (локальная разработка)
     dotenv_path = ROOT / ".env"
-    token = ""
     if dotenv_path.exists():
         with dotenv_path.open("r", encoding="utf-8") as f:
             for line in f:
@@ -21,12 +24,11 @@ def _read_token() -> str:
                 if line.startswith("BOT_TOKEN="):
                     token = line.split("=", 1)[1].strip()
                     break
-    # Резервный способ — token.txt в корне
+    # 3. Резервный способ - token.txt в корне
     if not token:
         alt = ROOT / "token.txt"
         if alt.exists():
             token = alt.read_text(encoding="utf-8").strip()
-    print(">> TOKEN USED:", token)
     return token
 
 @dataclass
