@@ -511,13 +511,15 @@ async def health_check(request):
 
 
 async def start_health_server():
+    import os
+    port = int(os.environ.get("PORT", 8080))
     app = web.Application()
     app.router.add_get("/", health_check)
     runner = web.AppRunner(app)
     await runner.setup()
-    site = web.TCPSite(runner, "0.0.0.0", 10000)
+    site = web.TCPSite(runner, "0.0.0.0", port)
     await site.start()
-    print("[Health] Server started on port 10000")
+    print(f"[Health] Server started on port {port}")
 
 
 async def main():
