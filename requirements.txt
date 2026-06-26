@@ -1,7 +1,7 @@
 aiogram==3.18.0
 httpx==0.28.1
-pydantic==2.12.3
-pydantic_core==2.41.4
+pydantic
+pydantic_core
 python-dotenv==1.0.0
 safehttpx==0.1.7
 supabase==2.31.0
