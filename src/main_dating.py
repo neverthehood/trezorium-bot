@@ -14,7 +14,7 @@ from src.models import SessionState
 from src.mods import compute_mods
 from src.indotype_resolver import resolve_indotype
 from src.gpt_messages import generate_first_message
-from src.supabase_client import save_user, save_result, get_all_results, delete_old_result, get_user
+from src.supabase_client import save_user, save_result, get_all_results, delete_old_result, get_user, get_latest_result
 
 router = Router()
 
@@ -181,20 +181,32 @@ async def finish_test(m, st):
         result_lines.append("")
         result_lines.append("\U0001f447 А пока — поделись результатом с друзьями!")
 
-        # Предварительный результат + ежедневные вопросы
-        result_lines.append("")
-        result_lines.append("—")
-        result_lines.append("")
-        result_lines.append("\U0001f4c8 *Это предварительный результат!*")
-        result_lines.append("")
-        result_lines.append("Чтобы получить полный портрет и точный мэтч,")
-        result_lines.append("я буду задавать тебе по 4 вопроса каждый день.")
-        result_lines.append("")
-        result_lines.append(f"Прогресс: {len(st.answers)}/48")
-        result_lines.append("")
-        result_lines.append("Завтра будет новый блок — возвращайся! \U0001f525")
-
+    # Финальное сообщение + предложение daily
+    result_lines.append("")
+    result_lines.append("—")
+    result_lines.append("")
+    
+    # Проверяем, есть ли у нас daily-вопросы
+    total_q = len(bank.questions)
+    remaining = total_q - ONBOARDING_COUNT  # 48 - 12 = 36 daily
+    if remaining > 0:
         st.daily_mode = True
+        st.daily_next_index = ONBOARDING_COUNT  # 12
+        result_lines.append("\U0001f4c8 *Твой портрет — только начало!*")
+        result_lines.append("")
+        result_lines.append(f"Чтобы уточнить совместимость, я буду задавать")
+        result_lines.append(f"тебе по *4 вопроса каждый день*.")
+        result_lines.append("")
+        result_lines.append(f"Осталось *{remaining} вопросов* — по 4 в день.")
+        result_lines.append("")
+        result_lines.append("Возвращайся завтра по команде /daily \U0001f525")
+    else:
+        result_lines.append("\U0001f4c8 *Твой полный портрет готов!*")
+        result_lines.append("")
+        result_lines.append("Я составил твой психологический профиль")
+        result_lines.append("и буду искать того, кто тебе подходит.")
+        result_lines.append("")
+        result_lines.append("Скоро ты получишь уведомление о мэтче! \U0001f525")
 
     result_text = "\n".join(result_lines)
 
@@ -326,7 +338,49 @@ async def h_help(m: Message):
 
 @router.message(Command("daily"))
 async def h_daily(m: Message):
-    await m.answer("Ежедневные вопросы будут добавлены в следующем обновлении.")
+    st = _sessions.get(m.chat.id)
+    if not st or not getattr(st, 'daily_mode', False):
+        await m.answer("Сначала пройди тест — напиши /start")
+        return
+
+    # Проверяем, не отвечал ли уже сегодня
+    from datetime import datetime, timezone
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    if getattr(st, 'daily_last_date', None) == today:
+        await m.answer(
+            "Ты уже отвечал сегодня! Возвращайся завтра \U0001f31b",
+            parse_mode="Markdown"
+        )
+        return
+
+    # Проверяем, остались ли ещё вопросы
+    total_q = len(bank.questions)
+    next_idx = getattr(st, 'daily_next_index', ONBOARDING_COUNT)
+    if next_idx >= total_q:
+        await m.answer(
+            "\U0001f389 *Ты ответил на все вопросы!*\n\n"
+            "Твой профиль полностью сформирован. "
+            "Теперь я ищу того, кто тебе подходит.\n\n"
+            "Скоро ты получишь уведомление о мэтче!",
+            parse_mode="Markdown"
+        )
+        return
+
+    # Берём следующие 4 вопроса
+    remaining = total_q - next_idx
+    batch_size = min(4, remaining)
+    batch_ids = []
+    for i in range(batch_size):
+        q = bank.questions[next_idx + i]
+        batch_ids.append(q.id)
+
+    st.daily_asked = batch_ids
+    st.daily_answers = {}
+    st.daily_last_date = today
+
+    # Отправляем первый вопрос
+    first_q = bank.questions[next_idx]
+    await send_question(m, st, first_q.id)
 
 
 @router.message(Command("profile"))
@@ -485,9 +539,60 @@ async def ans(cb: CallbackQuery):
         apply_weights(st, opt.weights or {}, 1.0)
     await safe_answer(cb)
 
-    asked_count = len(st.asked)
-    if asked_count < len(bank.questions):
-        next_q = bank.questions[asked_count]
+    # Определяем, в каком режиме мы находимся
+    in_daily_mode = getattr(st, 'daily_mode', False) and getattr(st, 'daily_asked', [])
+
+    if in_daily_mode:
+        # Режим daily: считаем, сколько вопросов из этого блока уже отвечено
+        answered_in_batch = sum(1 for qid_b in st.daily_asked if st.answers.get(qid_b, {}).get("single"))
+        if answered_in_batch >= len(st.daily_asked):
+            # Блок завершён — обновляем результат и следующий индекс
+            next_idx = getattr(st, 'daily_next_index', ONBOARDING_COUNT)
+            st.daily_next_index = next_idx + len(st.daily_asked)
+
+            # Сохраняем результат в БД
+            mods_result = compute_mods(st.answers, bank, st.vectors)
+            raw_mods = mods_result.get("raw", {})
+            indotype = resolve_indotype(mods_result)
+            code = indotype.get("code", "—")
+            raw_gender = getattr(st, 'gender', '')
+            gender = "M" if raw_gender == "male" else "F" if raw_gender == "female" else ""
+            age = getattr(st, 'age', 0)
+            looking_for = getattr(st, 'looking_for', '') or ''
+            try:
+                await save_result(m.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
+                print(f"[DB] Daily result saved: {st.daily_next_index}/48")
+            except Exception as e:
+                print(f"[DB] Daily save error: {e}")
+
+            total_q = len(bank.questions)
+            remaining = total_q - st.daily_next_index
+
+            if remaining <= 0:
+                await cb.message.answer(
+                    "\U0001f389 *Все вопросы пройдены!*\n\n"
+                    "Твой профиль полностью сформирован. "
+                    "Теперь я ищу того, кто тебе подходит.\n\n"
+                    "Скоро ты получишь уведомление о мэтче!",
+                    parse_mode="Markdown"
+                )
+            else:
+                await cb.message.answer(
+                    f"\U0001f44d *Блок завершён!*\n\n"
+                    f"Осталось *{remaining} вопросов*. "
+                    f"Возвращайся завтра по /daily \U0001f525",
+                    parse_mode="Markdown"
+                )
+        else:
+            # Есть ещё вопросы в этом блоке — не надо ничего делать,
+            # пользователь получит следующий по логике ниже
+            pass
+        return
+
+        # Обычный режим (стартовые 12 вопросов)
+    answered_count = len(st.asked)
+    if answered_count < ONBOARDING_COUNT:
+        next_q = bank.questions[answered_count]
         await send_question(cb.message, st, next_q.id)
     else:
         await finish_test(cb.message, st)

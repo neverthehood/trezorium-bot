@@ -1,52 +1,52 @@
 {
   "meta": {
     "name": "Trezorium Dating",
-    "version": "1.0",
+    "version": "2.0",
     "audience": "adult",
     "style": "story",
-    "description": "Короткий тест для знакомств — 12 вопросов"
+    "description": "Полный тест для знакомств — 48 вопросов: 12 стартовых + 36 ежедневных"
   },
   "features": {},
   "questions": [
     {
       "id": "1",
       "format": "single",
-      "text": "Твой идеальный вечер — это...",
+      "text": "Ты в книжном магазине. Какая полка притягивает первой?",
       "options": [
         {
           "id": "A",
-          "label": "Лежать с книгой или смотреть научпоп",
+          "label": "Научно-популярная — узнать, как устроен мир",
           "weights": {
-            "mod_theoretical": 3,
-            "mod_intro": 3,
-            "mod_static": 2
+            "mod_head": 3,
+            "mod_theoretical": 2,
+            "mod_macro": 1
           }
         },
         {
           "id": "B",
-          "label": "Шумная вечеринка с друзьями",
+          "label": "Художественная — за эмоциями и историями",
           "weights": {
-            "mod_extro": 3,
+            "mod_heart": 3,
             "mod_positive": 2,
-            "mod_scenic": 2
+            "mod_aesthetic": 1
           }
         },
         {
           "id": "C",
-          "label": "Поход в горы с палаткой",
+          "label": "Практические руководства — чтобы делать, а не читать",
           "weights": {
-            "mod_natural": 3,
-            "mod_athlete": 2,
-            "mod_risk": 2
+            "mod_body": 3,
+            "mod_practical": 2,
+            "mod_master": 1
           }
         },
         {
           "id": "D",
-          "label": "Мастерить/ремонтировать что-то руками",
+          "label": "Креатив и дизайн — что-то необычное",
           "weights": {
-            "mod_practical": 3,
-            "mod_master": 2,
-            "mod_intro": 1
+            "mod_creativity": 3,
+            "mod_inventor": 2,
+            "mod_aesthetic": 1
           }
         }
       ]
@@ -54,42 +54,42 @@
     {
       "id": "2",
       "format": "single",
-      "text": "Коллега предлагает рискованный проект. Ты...",
+      "text": "Ты на необитаемом острове. Твоя первая мысль?",
       "options": [
         {
           "id": "A",
-          "label": "Сначала всё просчитаю, потом решу",
+          "label": "Как здесь всё устроено? Надо изучить.",
           "weights": {
+            "mod_head": 3,
             "mod_theoretical": 2,
-            "mod_planned": 3,
-            "mod_static": 2
+            "mod_macro": 1
           }
         },
         {
           "id": "B",
-          "label": "Горю идеей, хочу попробовать!",
+          "label": "Главное, чтобы рядом был кто-то близкий.",
           "weights": {
-            "mod_risk": 3,
-            "mod_spontaneous": 2,
-            "mod_extro": 2
+            "mod_heart": 3,
+            "mod_positive": 2,
+            "mod_generator": 1
           }
         },
         {
           "id": "C",
-          "label": "Посмотрю, что скажет команда",
+          "label": "Надо строить укрытие и добывать еду.",
           "weights": {
-            "mod_heart": 2,
-            "mod_positive": 2,
-            "mod_negative": 1
+            "mod_body": 3,
+            "mod_practical": 2,
+            "mod_master": 1
           }
         },
         {
           "id": "D",
-          "label": "Предложу свой альтернативный план",
+          "label": "Какая красота! Надо всё исследовать!",
           "weights": {
-            "mod_inventor": 3,
-            "mod_practical": 2,
-            "mod_head": 2
+            "mod_creativity": 3,
+            "mod_inventor": 2,
+            "mod_natural": 1
           }
         }
       ]
@@ -97,42 +97,42 @@
     {
       "id": "3",
       "format": "single",
-      "text": "Твой друг расстроен. Твои действия?",
+      "text": "Коллега допустил ошибку в проекте. Твоя реакция?",
       "options": [
         {
           "id": "A",
-          "label": "Обниму и выслушаю",
+          "label": "Разберусь, в чём причина, чтобы не повторилось.",
           "weights": {
-            "mod_heart": 3,
-            "mod_positive": 2,
-            "mod_intro": 2
+            "mod_head": 2,
+            "mod_theoretical": 2,
+            "mod_humanitarian": 1
           }
         },
         {
           "id": "B",
-          "label": "Предложу решение проблемы",
+          "label": "Поддержу его, все ошибаются.",
           "weights": {
-            "mod_head": 3,
-            "mod_practical": 2,
-            "mod_planned": 1
+            "mod_heart": 3,
+            "mod_positive": 2,
+            "mod_emitter": 1
           }
         },
         {
           "id": "C",
-          "label": "Позову гулять/развеяться",
+          "label": "Помогу исправить прямо сейчас.",
           "weights": {
-            "mod_extro": 3,
-            "mod_athlete": 1,
-            "mod_scenic": 2
+            "mod_body": 2,
+            "mod_practical": 3,
+            "mod_master": 1
           }
         },
         {
           "id": "D",
-          "label": "Расскажу анекдот, чтобы отвлечь",
+          "label": "Предложу нестандартный способ всё исправить.",
           "weights": {
-            "mod_positive": 3,
-            "mod_spontaneous": 2,
-            "mod_emitter": 2
+            "mod_creativity": 2,
+            "mod_inventor": 3,
+            "mod_situational": 1
           }
         }
       ]
@@ -140,42 +140,42 @@
     {
       "id": "4",
       "format": "single",
-      "text": "Что тебя больше всего привлекает в людях?",
+      "text": "Что тебе ближе в выходной?",
       "options": [
         {
           "id": "A",
-          "label": "Ум, эрудиция, необычные идеи",
+          "label": "Посмотреть документалку или почитать",
           "weights": {
-            "mod_theoretical": 3,
             "mod_head": 2,
-            "mod_inventor": 1
+            "mod_macro": 2,
+            "mod_static": 2
           }
         },
         {
           "id": "B",
-          "label": "Доброта, забота, умение слушать",
+          "label": "Встретиться с друзьями и родными",
           "weights": {
             "mod_heart": 3,
-            "mod_positive": 3,
-            "mod_generator": 1
+            "mod_emitter": 2,
+            "mod_scenic": 1
           }
         },
         {
           "id": "C",
-          "label": "Активность, энергия, страсть к жизни",
+          "label": "Заняться спортом или сделать что-то руками",
           "weights": {
+            "mod_body": 3,
             "mod_athlete": 2,
-            "mod_extro": 2,
-            "mod_risk": 2
+            "mod_practical": 1
           }
         },
         {
           "id": "D",
-          "label": "Креативность, чувство юмора",
+          "label": "Пойти на выставку или творить",
           "weights": {
-            "mod_inventor": 2,
+            "mod_creativity": 3,
             "mod_aesthetic": 2,
-            "mod_spontaneous": 2
+            "mod_inventor": 1
           }
         }
       ]
@@ -183,42 +183,42 @@
     {
       "id": "5",
       "format": "single",
-      "text": "Как ты планируешь отпуск?",
+      "text": "Как ты принимаешь важные решения?",
       "options": [
         {
           "id": "A",
-          "label": "Расписываю всё по дням за месяц",
+          "label": "Взвешиваю все за и против, анализирую",
           "weights": {
-            "mod_planned": 3,
-            "mod_static": 2,
-            "mod_theoretical": 1
+            "mod_head": 3,
+            "mod_theoretical": 2,
+            "mod_macro": 1
           }
         },
         {
           "id": "B",
-          "label": "Покупаю билет и решаю на месте",
+          "label": "Прислушиваюсь к сердцу и интуиции",
           "weights": {
-            "mod_spontaneous": 3,
-            "mod_risk": 2,
-            "mod_extro": 1
+            "mod_heart": 3,
+            "mod_positive": 2,
+            "mod_generator": 1
           }
         },
         {
           "id": "C",
-          "label": "Еду к друзьям/родственникам",
+          "label": "Просто делаю — жизнь покажет",
           "weights": {
-            "mod_heart": 2,
-            "mod_positive": 2,
-            "mod_emitter": 2
+            "mod_body": 2,
+            "mod_practical": 2,
+            "mod_athlete": 2
           }
         },
         {
           "id": "D",
-          "label": "Ищу необычное — волонтёрство, ретрит",
+          "label": "Ищу нестандартный вариант",
           "weights": {
-            "mod_natural": 2,
+            "mod_creativity": 3,
             "mod_inventor": 2,
-            "mod_aesthetic": 2
+            "mod_situational": 1
           }
         }
       ]
@@ -226,42 +226,42 @@
     {
       "id": "6",
       "format": "single",
-      "text": "Твой главный страх в отношениях?",
+      "text": "Ты на вечеринке. Чем занят через час?",
       "options": [
         {
           "id": "A",
-          "label": "Что меня не поймут, не оценят ум",
+          "label": "Обсуждаю что-то интересное в углу",
           "weights": {
-            "mod_theoretical": 2,
             "mod_head": 2,
-            "mod_negative": 2
+            "mod_theoretical": 2,
+            "mod_humanitarian": 2
           }
         },
         {
           "id": "B",
-          "label": "Что меня будут использовать",
+          "label": "В центре компании, всем комфортно",
           "weights": {
-            "mod_heart": 2,
-            "mod_negative": 2,
-            "mod_generator": 1
+            "mod_heart": 3,
+            "mod_emitter": 2,
+            "mod_positive": 1
           }
         },
         {
           "id": "C",
-          "label": "Что будет скучно и однообразно",
+          "label": "Организую, чтобы всем было весело",
           "weights": {
-            "mod_risk": 2,
-            "mod_spontaneous": 2,
-            "mod_extro": 2
+            "mod_body": 2,
+            "mod_practical": 2,
+            "mod_master": 2
           }
         },
         {
           "id": "D",
-          "label": "Что потеряю свободу и себя",
+          "label": "Танцую или придумываю развлечения",
           "weights": {
-            "mod_inventor": 2,
-            "mod_aesthetic": 2,
-            "mod_emitter": 2
+            "mod_creativity": 2,
+            "mod_scenic": 2,
+            "mod_athlete": 2
           }
         }
       ]
@@ -269,42 +269,42 @@
     {
       "id": "7",
       "format": "single",
-      "text": "Выбери цитату, которая тебе ближе:",
+      "text": "Что тебя раздражает больше всего?",
       "options": [
         {
           "id": "A",
-          "label": "«Порядок освобождает мысль»",
+          "label": "Нелогичность и хаос",
           "weights": {
-            "mod_planned": 3,
+            "mod_head": 2,
             "mod_theoretical": 2,
-            "mod_head": 1
+            "mod_negative": 2
           }
         },
         {
           "id": "B",
-          "label": "«Жизнь — то, что происходит, пока строишь планы»",
+          "label": "Равнодушие и несправедливость",
           "weights": {
-            "mod_spontaneous": 3,
-            "mod_risk": 2,
-            "mod_positive": 1
+            "mod_heart": 3,
+            "mod_negative": 3,
+            "mod_generator": 1
           }
         },
         {
           "id": "C",
-          "label": "«Самое главное — люди рядом»",
+          "label": "Беспомощность и медлительность",
           "weights": {
-            "mod_heart": 3,
-            "mod_positive": 2,
-            "mod_emitter": 2
+            "mod_body": 2,
+            "mod_negative": 2,
+            "mod_athlete": 2
           }
         },
         {
           "id": "D",
-          "label": "«Творчество — единственный способ сбежать»",
+          "label": "Скука и шаблонность",
           "weights": {
-            "mod_inventor": 3,
-            "mod_aesthetic": 2,
-            "mod_spontaneous": 1
+            "mod_creativity": 3,
+            "mod_inventor": 2,
+            "mod_negative": 1
           }
         }
       ]
@@ -312,42 +312,41 @@
     {
       "id": "8",
       "format": "single",
-      "text": "Твой стиль в одежде?",
+      "text": "Какой комплимент тебе дороже?",
       "options": [
         {
           "id": "A",
-          "label": "Классика, удобство, ничего лишнего",
+          "label": "Ты такой умный и умная",
           "weights": {
-            "mod_static": 3,
-            "mod_planned": 2,
-            "mod_theoretical": 1
+            "mod_head": 3,
+            "mod_theoretical": 2
           }
         },
         {
           "id": "B",
-          "label": "Ярко, модно, чтобы заметили",
+          "label": "С тобой так тепло и спокойно",
           "weights": {
-            "mod_scenic": 3,
-            "mod_extro": 2,
-            "mod_emitter": 2
+            "mod_heart": 3,
+            "mod_positive": 2,
+            "mod_generator": 1
           }
         },
         {
           "id": "C",
-          "label": "Практично — главное не мешает",
+          "label": "На тебя можно положиться",
           "weights": {
-            "mod_practical": 3,
-            "mod_natural": 2,
-            "mod_athlete": 1
+            "mod_body": 2,
+            "mod_practical": 2,
+            "mod_master": 2
           }
         },
         {
           "id": "D",
-          "label": "Самовыражение, винтаж, эклектика",
+          "label": "Ты такой творческий и необычный",
           "weights": {
-            "mod_aesthetic": 3,
+            "mod_creativity": 3,
             "mod_inventor": 2,
-            "mod_spontaneous": 2
+            "mod_aesthetic": 1
           }
         }
       ]
@@ -355,42 +354,42 @@
     {
       "id": "9",
       "format": "single",
-      "text": "Что тебя вдохновляет?",
+      "text": "Ты получил задачу без инструкции. Что делаешь?",
       "options": [
         {
           "id": "A",
-          "label": "Научные открытия, книги, лекции",
+          "label": "Ищу информацию и разбираюсь",
           "weights": {
-            "mod_theoretical": 3,
-            "mod_head": 2,
-            "mod_macro": 2
+            "mod_head": 3,
+            "mod_theoretical": 2,
+            "mod_micro": 1
           }
         },
         {
           "id": "B",
-          "label": "Люди, их истории, эмоции",
+          "label": "Спрашиваю у коллег и друзей",
           "weights": {
-            "mod_heart": 3,
-            "mod_positive": 2,
-            "mod_emitter": 2
+            "mod_heart": 2,
+            "mod_emitter": 2,
+            "mod_positive": 2
           }
         },
         {
           "id": "C",
-          "label": "Природа, путешествия, спорт",
+          "label": "Пробую сделать — методом тыка",
           "weights": {
-            "mod_natural": 3,
-            "mod_athlete": 2,
-            "mod_risk": 1
+            "mod_body": 3,
+            "mod_practical": 2,
+            "mod_athlete": 1
           }
         },
         {
           "id": "D",
-          "label": "Искусство, музыка, красивые вещи",
+          "label": "Придумываю свой подход",
           "weights": {
-            "mod_aesthetic": 3,
+            "mod_creativity": 3,
             "mod_inventor": 2,
-            "mod_scenic": 2
+            "mod_situational": 1
           }
         }
       ]
@@ -398,42 +397,42 @@
     {
       "id": "10",
       "format": "single",
-      "text": "Твой девиз по жизни:",
+      "text": "Что для тебя идеальные отношения?",
       "options": [
         {
           "id": "A",
-          "label": "«Семь раз отмерь — один раз отрежь»",
+          "label": "Партнёр, с которым можно говорить обо всём",
           "weights": {
-            "mod_planned": 3,
-            "mod_static": 2,
-            "mod_theoretical": 2
+            "mod_head": 2,
+            "mod_humanitarian": 2,
+            "mod_macro": 2
           }
         },
         {
           "id": "B",
-          "label": "«Кто не рискует — тот не пьёт шампанское»",
+          "label": "Взаимная забота и нежность",
           "weights": {
-            "mod_risk": 3,
-            "mod_spontaneous": 2,
-            "mod_extro": 2
+            "mod_heart": 3,
+            "mod_generator": 2,
+            "mod_positive": 1
           }
         },
         {
           "id": "C",
-          "label": "«Относись к другим как к себе»",
+          "label": "Надёжность и совместные дела",
           "weights": {
-            "mod_heart": 3,
-            "mod_positive": 2,
-            "mod_generator": 2
+            "mod_body": 2,
+            "mod_practical": 2,
+            "mod_master": 2
           }
         },
         {
           "id": "D",
-          "label": "«Будь собой, остальные уже заняты»",
+          "label": "Свобода и взаимное вдохновение",
           "weights": {
+            "mod_creativity": 3,
             "mod_inventor": 2,
-            "mod_aesthetic": 2,
-            "mod_emitter": 2
+            "mod_aesthetic": 1
           }
         }
       ]
@@ -441,42 +440,42 @@
     {
       "id": "11",
       "format": "single",
-      "text": "Как ты ведёшь себя в конфликте?",
+      "text": "Твоя комната — это...",
       "options": [
         {
           "id": "A",
-          "label": "Логически объясняю свою позицию",
+          "label": "Система — всё на своих местах",
           "weights": {
-            "mod_head": 3,
-            "mod_theoretical": 2,
-            "mod_planned": 1
+            "mod_head": 2,
+            "mod_micro": 2,
+            "mod_static": 2
           }
         },
         {
           "id": "B",
-          "label": "Стараюсь сгладить и сохранить отношения",
+          "label": "Уютное гнездо с фотографиями",
           "weights": {
-            "mod_heart": 3,
-            "mod_positive": 2,
-            "mod_negative": 1
+            "mod_heart": 2,
+            "mod_generator": 2,
+            "mod_positive": 2
           }
         },
         {
           "id": "C",
-          "label": "Могу вспылить, но быстро отхожу",
+          "label": "Минимум вещей — всё для дела",
           "weights": {
-            "mod_negative": 2,
-            "mod_extro": 2,
-            "mod_emitter": 2
+            "mod_body": 2,
+            "mod_practical": 2,
+            "mod_athlete": 2
           }
         },
         {
           "id": "D",
-          "label": "Замолкаю и ухожу в себя",
+          "label": "Творческий беспорядок и вдохновение",
           "weights": {
-            "mod_intro": 3,
-            "mod_negative": 1,
-            "mod_static": 2
+            "mod_creativity": 3,
+            "mod_inventor": 2,
+            "mod_aesthetic": 1
           }
         }
       ]
@@ -484,42 +483,874 @@
     {
       "id": "12",
       "format": "single",
-      "text": "Что ты ищешь в отношениях?",
+      "text": "Что ты выберешь для свидания?",
       "options": [
         {
           "id": "A",
-          "label": "Партнёра для интеллектуальных бесед",
+          "label": "Прогулка и разговор по душам",
           "weights": {
-            "mod_theoretical": 2,
             "mod_head": 2,
-            "mod_macro": 2
+            "mod_humanitarian": 2,
+            "mod_natural": 1
           }
         },
         {
           "id": "B",
-          "label": "Теплоту, заботу и безопасность",
+          "label": "Уютный ужин с хорошей едой",
           "weights": {
-            "mod_heart": 3,
-            "mod_positive": 2,
-            "mod_static": 2
+            "mod_heart": 2,
+            "mod_generator": 2,
+            "mod_positive": 2
           }
         },
         {
           "id": "C",
-          "label": "Приключений и ярких эмоций",
+          "label": "Активный отдых — квест или поход",
           "weights": {
-            "mod_risk": 3,
-            "mod_extro": 2,
-            "mod_spontaneous": 2
+            "mod_body": 3,
+            "mod_athlete": 2,
+            "mod_risk": 1
           }
         },
         {
           "id": "D",
-          "label": "Вдохновения и взаимного творчества",
+          "label": "Что-то необычное — выставка или квест",
+          "weights": {
+            "mod_creativity": 2,
+            "mod_inventor": 2,
+            "mod_scenic": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "13",
+      "format": "single",
+      "text": "Ты купил новый гаджет. Что делаешь первым?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Читаю инструкцию от корки до корки",
+          "weights": {
+            "mod_theoretical": 3,
+            "mod_micro": 2
+          }
+        },
+        {
+          "id": "B",
+          "label": "Пробую все функции сам",
+          "weights": {
+            "mod_practical": 3,
+            "mod_athlete": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "14",
+      "format": "single",
+      "text": "У тебя проблема. Первый шаг?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Понять теорию и причину",
+          "weights": {
+            "mod_theoretical": 3,
+            "mod_head": 2
+          }
+        },
+        {
+          "id": "B",
+          "label": "Начать что-то делать",
+          "weights": {
+            "mod_practical": 3,
+            "mod_body": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "15",
+      "format": "single",
+      "text": "Какой музей выберешь?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Естественно-научный или техники",
+          "weights": {
+            "mod_natural": 3,
+            "mod_theoretical": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Художественный или исторический",
+          "weights": {
+            "mod_humanitarian": 3,
+            "mod_aesthetic": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "16",
+      "format": "single",
+      "text": "Какая книга тебя увлекает больше?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Научпоп про физику или биологию",
+          "weights": {
+            "mod_natural": 3,
+            "mod_theoretical": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Роман или психология",
+          "weights": {
+            "mod_humanitarian": 3,
+            "mod_heart": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "17",
+      "format": "single",
+      "text": "Что тебе интереснее?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Общая картина, глобальные процессы",
+          "weights": {
+            "mod_macro": 3,
+            "mod_head": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Детали, нюансы, точность",
+          "weights": {
+            "mod_micro": 3,
+            "mod_static": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "18",
+      "format": "single",
+      "text": "Как решаешь сложную задачу?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Смотрю на систему в целом",
+          "weights": {
+            "mod_macro": 3
+          }
+        },
+        {
+          "id": "B",
+          "label": "Раскладываю на мелкие части",
+          "weights": {
+            "mod_micro": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "19",
+      "format": "single",
+      "text": "Как ты видишь мир в основном?",
+      "options": [
+        {
+          "id": "A",
+          "label": "В мире больше хорошего",
+          "weights": {
+            "mod_positive": 3,
+            "mod_heart": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Надо быть настороже",
+          "weights": {
+            "mod_negative": 3,
+            "mod_heart": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "20",
+      "format": "single",
+      "text": "Когда случается неприятность, ты...",
+      "options": [
+        {
+          "id": "A",
+          "label": "Ищешь в этом плюсы и уроки",
+          "weights": {
+            "mod_positive": 3
+          }
+        },
+        {
+          "id": "B",
+          "label": "Готовишься к худшему",
+          "weights": {
+            "mod_negative": 3
+          }
+        }
+      ]
+    },
+    {
+      "id": "21",
+      "format": "single",
+      "text": "Как ты проявляешь заботу?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Через глубокие разговоры",
+          "weights": {
+            "mod_generator": 3,
+            "mod_heart": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Делами и подарками",
+          "weights": {
+            "mod_emitter": 3,
+            "mod_heart": 1,
+            "mod_practical": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "22",
+      "format": "single",
+      "text": "Как ты влияешь на других?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Через личный пример и поддержку",
+          "weights": {
+            "mod_generator": 3
+          }
+        },
+        {
+          "id": "B",
+          "label": "Через слова и вдохновение",
+          "weights": {
+            "mod_emitter": 3,
+            "mod_scenic": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "23",
+      "format": "single",
+      "text": "Твой подход к физической активности?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Люблю движение, спорт, адреналин",
+          "weights": {
+            "mod_athlete": 3,
+            "mod_risk": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Люблю делать вещи руками",
+          "weights": {
+            "mod_master": 3,
+            "mod_practical": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "24",
+      "format": "single",
+      "text": "Отдых после работы — это...",
+      "options": [
+        {
+          "id": "A",
+          "label": "Побегать, поплавать, погулять",
+          "weights": {
+            "mod_athlete": 3,
+            "mod_natural": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Что-то смастерить или починить",
+          "weights": {
+            "mod_master": 3,
+            "mod_practical": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "25",
+      "format": "single",
+      "text": "Как ты относишься к риску?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Риск — дело благородное!",
+          "weights": {
+            "mod_risk": 3,
+            "mod_athlete": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Семь раз отмерь — один отрежь",
+          "weights": {
+            "mod_static": 3,
+            "mod_head": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "26",
+      "format": "single",
+      "text": "Путешествие — это...",
+      "options": [
+        {
+          "id": "A",
+          "label": "Спонтанное приключение",
+          "weights": {
+            "mod_risk": 3,
+            "mod_situational": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Тщательно спланированный маршрут",
+          "weights": {
+            "mod_static": 3,
+            "mod_macro": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "27",
+      "format": "single",
+      "text": "Как ты любишь проявляться?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Быть в центре внимания",
+          "weights": {
+            "mod_scenic": 3,
+            "mod_emitter": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Импровизировать по ситуации",
+          "weights": {
+            "mod_situational": 3,
+            "mod_inventor": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "28",
+      "format": "single",
+      "text": "Что тебе ближе?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Выступать на сцене",
+          "weights": {
+            "mod_scenic": 3,
+            "mod_athlete": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Импровизировать на ходу",
+          "weights": {
+            "mod_situational": 3,
+            "mod_creativity": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "29",
+      "format": "single",
+      "text": "Что тебя вдохновляет творить?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Создать что-то новое и полезное",
+          "weights": {
+            "mod_inventor": 3,
+            "mod_head": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Красота и гармония вокруг",
+          "weights": {
+            "mod_aesthetic": 3,
+            "mod_heart": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "30",
+      "format": "single",
+      "text": "Какой подарок тебе приятнее получить?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Что-то полезное и функциональное",
+          "weights": {
+            "mod_inventor": 3,
+            "mod_practical": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Что-то красивое и эстетичное",
+          "weights": {
+            "mod_aesthetic": 3,
+            "mod_emitter": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "31",
+      "format": "single",
+      "text": "Когда ты зол, что помогает?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Понять причину и найти решение",
+          "weights": {
+            "mod_head": 3,
+            "mod_theoretical": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Выговориться и получить поддержку",
+          "weights": {
+            "mod_heart": 3,
+            "mod_positive": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "32",
+      "format": "single",
+      "text": "Ты больше доверяешь...",
+      "options": [
+        {
+          "id": "A",
+          "label": "Фактам и логике",
+          "weights": {
+            "mod_head": 3,
+            "mod_theoretical": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Интуиции и чувствам",
+          "weights": {
+            "mod_heart": 3,
+            "mod_positive": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "33",
+      "format": "single",
+      "text": "Что для тебя интереснее?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Открывать новые горизонты",
+          "weights": {
+            "mod_inventor": 3,
+            "mod_macro": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Углубляться в уже знакомое",
+          "weights": {
+            "mod_static": 3,
+            "mod_micro": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "34",
+      "format": "single",
+      "text": "Как ты осваиваешь новое?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Пробую много разного",
+          "weights": {
+            "mod_inventor": 3,
+            "mod_risk": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Фокусируюсь на одном до мастерства",
+          "weights": {
+            "mod_master": 3,
+            "mod_static": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "35",
+      "format": "single",
+      "text": "Что возникает раньше?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Идея или образ",
+          "weights": {
+            "mod_creativity": 3,
+            "mod_inventor": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Желание сделать",
+          "weights": {
+            "mod_body": 3,
+            "mod_practical": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "36",
+      "format": "single",
+      "text": "За что ты берёшься с радостью?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Придумать что-то новое",
+          "weights": {
+            "mod_creativity": 3,
+            "mod_aesthetic": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Реализовать уже готовое",
+          "weights": {
+            "mod_body": 3,
+            "mod_master": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "37",
+      "format": "single",
+      "text": "Как ты относишься к правилам?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Нарушаю, если нужно для дела",
           "weights": {
             "mod_inventor": 2,
-            "mod_aesthetic": 2,
-            "mod_emitter": 2
+            "mod_risk": 2,
+            "mod_situational": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Лучше придерживаться правил",
+          "weights": {
+            "mod_static": 3,
+            "mod_head": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "38",
+      "format": "single",
+      "text": "Ты в системе с жёсткими правилами. Твои чувства?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Попробую обойти правила",
+          "weights": {
+            "mod_inventor": 2,
+            "mod_risk": 2,
+            "mod_situational": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Приму и найду себя внутри",
+          "weights": {
+            "mod_static": 2,
+            "mod_master": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "39",
+      "format": "single",
+      "text": "Какой стиль работы тебе ближе?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Долго и глубоко над одним",
+          "weights": {
+            "mod_master": 3,
+            "mod_static": 1,
+            "mod_micro": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Переключаться между задачами",
+          "weights": {
+            "mod_situational": 3,
+            "mod_inventor": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "40",
+      "format": "single",
+      "text": "В проекте возникла неожиданность. Ты...",
+      "options": [
+        {
+          "id": "A",
+          "label": "Продолжаю следовать плану",
+          "weights": {
+            "mod_static": 3,
+            "mod_head": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Быстро адаптируюсь",
+          "weights": {
+            "mod_situational": 3,
+            "mod_inventor": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "41",
+      "format": "single",
+      "text": "Как ты проводишь энергию?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Заряжаю и меняю окружающих",
+          "weights": {
+            "mod_emitter": 3,
+            "mod_scenic": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Сохраняю и направляю внутрь",
+          "weights": {
+            "mod_generator": 3,
+            "mod_static": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "42",
+      "format": "single",
+      "text": "В конфликте ты чаще...",
+      "options": [
+        {
+          "id": "A",
+          "label": "Иду в открытую",
+          "weights": {
+            "mod_emitter": 3,
+            "mod_risk": 1,
+            "mod_negative": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Сглаживаю углы",
+          "weights": {
+            "mod_generator": 3,
+            "mod_positive": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "43",
+      "format": "single",
+      "text": "Что для тебя порядок?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Должен быть гибким и живым",
+          "weights": {
+            "mod_situational": 3,
+            "mod_inventor": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Чёткая структура и предсказуемость",
+          "weights": {
+            "mod_static": 3,
+            "mod_micro": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "44",
+      "format": "single",
+      "text": "Как ты планируешь день?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Примерные ориентиры",
+          "weights": {
+            "mod_situational": 3,
+            "mod_macro": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Чёткий план по часам",
+          "weights": {
+            "mod_static": 3,
+            "mod_micro": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "45",
+      "format": "single",
+      "text": "Что для тебя важнее?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Влиять на мир вокруг",
+          "weights": {
+            "mod_emitter": 3,
+            "mod_macro": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Развивать себя изнутри",
+          "weights": {
+            "mod_generator": 3,
+            "mod_micro": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "46",
+      "format": "single",
+      "text": "Твоя главная цель?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Сделать этот мир лучше",
+          "weights": {
+            "mod_emitter": 3,
+            "mod_positive": 1,
+            "mod_macro": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Стать лучшей версией себя",
+          "weights": {
+            "mod_generator": 3,
+            "mod_micro": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "47",
+      "format": "single",
+      "text": "Как ты восстанавливаешь силы?",
+      "options": [
+        {
+          "id": "A",
+          "label": "В компании близких людей",
+          "weights": {
+            "mod_heart": 3,
+            "mod_emitter": 1,
+            "mod_positive": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Наедине с собой",
+          "weights": {
+            "mod_head": 2,
+            "mod_static": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "48",
+      "format": "single",
+      "text": "Что ты выберешь?",
+      "options": [
+        {
+          "id": "A",
+          "label": "Большая шумная компания",
+          "weights": {
+            "mod_heart": 2,
+            "mod_emitter": 2,
+            "mod_scenic": 1
+          }
+        },
+        {
+          "id": "B",
+          "label": "Уютный вечер в одиночестве",
+          "weights": {
+            "mod_head": 2,
+            "mod_static": 2,
+            "mod_generator": 1
           }
         }
       ]

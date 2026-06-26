@@ -53,10 +53,16 @@ def load_bank(pack_name: str = "pack_classic_mods_adult_v1.json") -> QuestionBan
 
     pack_path = PACKS / pack_name
     print(f">>> Загрузка пака: {pack_path.name}")
-
     if pack_path.exists():
         obj = _read_json(pack_path)
-        arr = obj.get("questions") if isinstance(obj, dict) else obj
+        if isinstance(obj, dict):
+            arr = obj.get("questions")
+            meta = obj.get("meta", {})
+            features = obj.get("features", {})
+        else:
+            arr = obj
+            meta = {}
+            features = {}
         if isinstance(arr, list):
             for q in arr:
                 questions.append(_mk_question(q))

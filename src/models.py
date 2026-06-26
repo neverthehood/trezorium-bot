@@ -53,7 +53,9 @@ class SessionState(BaseModel):
     deep_block: List[str] = Field(default_factory=list)
     deep_index: Optional[int] = None
     
-    # Dating onboarding fields
+        # Dating onboarding fields
     waiting_for: Optional[str] = None
     looking_for: Optional[str] = None
     age: int = 0
+    daily_next_index: int = 12  # первый daily-вопрос после 12 стартовых
+    daily_last_date: Optional[str] = None
