@@ -137,13 +137,12 @@ async def finish_test(m, st):
         await delete_old_result(m.chat.id)
     except Exception:
         pass
-
-        # Сохраняем
+    # Сохраняем
     print(f"[DB] Save user {m.chat.id}...")
-    raw_gender = getattr(st, 'gender', '')
+    raw_gender = getattr(st, "gender", "")
     gender = "M" if raw_gender == "male" else "F" if raw_gender == "female" else ""
-    age = getattr(st, 'age', 0)
-    looking_for = getattr(st, 'looking_for', '') or ''
+    age = getattr(st, "age", 0)
+    looking_for = getattr(st, "looking_for", "") or ""
     try:
         u = await save_user(m.chat.id, m.from_user.username, gender=gender, age=age, looking_for=looking_for)
         print(f"[DB] User saved: {u}")
@@ -154,34 +153,17 @@ async def finish_test(m, st):
         print(f"[DB] Result saved: {r}")
     except Exception as e:
         print(f"[DB] Result save error: {e}")
+        print(f"[DB] Result save error: {e}")
+    # Отложенный поиск мэтча (через 24 часа)
+        # Отложенный поиск мэтча (через 24 часа)
+    asyncio.create_task(delayed_match_notify(m.chat.id, code, raw_mods, 24 * 3600))
 
-    # Результат
+    # Результат — только типаж, без мэтча
     result_lines = []
     result_lines.append(f"\U0001f9e9 *Твой типаж:* {human_name}")
     result_lines.append("")
     result_lines.append(f"_{description}_")
     result_lines.append("")
-
-    match = await find_match(m.chat.id, code, raw_mods)
-
-    if match:
-        match_user_id, match_code, match_mods, score = match
-        match_name = TYPE_NAMES.get(match_code, match_code)
-        result_lines.append("\U0001f3af *Мы нашли твою половинку!*")
-        result_lines.append("")
-        result_lines.append(f"Совместимость: *{score:.0f}%*")
-        result_lines.append(f"Типаж: {match_name}")
-        result_lines.append("")
-        result_lines.append(f"Напиши @{match_user_id} — вы созданы друг для друга!")
-    else:
-        result_lines.append("\U0001f50d *Ищем твоё сокровище...*")
-        result_lines.append("")
-        result_lines.append("Пока ты единственный в своём типаже.")
-        result_lines.append("Но скоро я найду того, кто тебе подходит!")
-        result_lines.append("")
-        result_lines.append("\U0001f447 А пока — поделись результатом с друзьями!")
-
-        # Финальное сообщение
     result_lines.append("")
     result_lines.append("—")
     result_lines.append("")
@@ -211,6 +193,44 @@ async def finish_test(m, st):
     result_text = "\n".join(result_lines)
 
     await m.answer(result_text, parse_mode="Markdown")
+
+
+async def delayed_match_notify(chat_id: int, code: str, mods_raw: dict, delay_sec: int):
+    """Через delay_sec секунд найти мэтч и отправить уведомление."""
+    from datetime import datetime
+    import logging
+    logger = logging.getLogger(__name__)
+    
+    await asyncio.sleep(delay_sec)
+    
+    try:
+        bot = _bot_instance  # будет установлено при старте
+        if not bot:
+            return
+            
+        match = await find_match(chat_id, code, mods_raw)
+        if match:
+            match_user_id, match_code, _, score = match
+            match_name = TYPE_NAMES.get(match_code, match_code)
+            text = (
+                f"\U0001f3af *Мы нашли твою половинку!*\n\n"
+                f"Совместимость: *{score:.0f}%*\n"
+                f"Типаж: {match_name}\n\n"
+                f"Напиши @{match_user_id} — вы созданы друг для друга!"
+            )
+            await bot.send_message(chat_id, text, parse_mode="Markdown")
+            logger.info(f"Match notification sent to {chat_id}: {match_code} @{match_user_id}")
+        else:
+            logger.info(f"Match not found for {chat_id} after delay, will retry later")
+            # Повторим через сутки
+            asyncio.create_task(delayed_match_notify(chat_id, code, mods_raw, 24 * 3600))
+    except Exception as e:
+        logger.error(f"Match notification error for {chat_id}: {e}")
+        # Повторим через час
+        asyncio.create_task(delayed_match_notify(chat_id, code, mods_raw, 3600))
+
+
+_bot_instance = None
 
 
 async def find_match(user_id, code, mods):
@@ -320,7 +340,8 @@ async def h_start(m: Message):
     )
     await m.answer(welcome, reply_markup=keyboard, parse_mode="Markdown")
 
-
+@router.message(Command("help"))
+async def h_help(m: Message):
     help_text = (
         "\U0001f916 *Trezorium — команды*\n\n"
         "/start — начать тест\n"
@@ -331,6 +352,8 @@ async def h_start(m: Message):
         "/help — эта подсказка"
     )
     await m.answer(help_text, parse_mode="Markdown")
+
+
 
 
 @router.message(Command("daily"))
@@ -605,9 +628,6 @@ async def ans(cb: CallbackQuery):
         apply_weights(st, opt.weights or {}, 1.0)
     await safe_answer(cb)
 
-    # Определяем, в каком режиме мы находимся
-    in_daily_mode = getattr(st, 'daily_mode', False) and getattr(st, 'daily_asked', [])
-
     if in_daily_mode:
         # Режим daily: считаем, сколько вопросов из этого блока уже отвечено
         answered_in_batch = sum(1 for qid_b in st.daily_asked if st.answers.get(qid_b, {}).get("single"))
@@ -623,12 +643,12 @@ async def ans(cb: CallbackQuery):
             code = indotype.get("code", "—")
             raw_gender = getattr(st, 'gender', '')
             gender = "M" if raw_gender == "male" else "F" if raw_gender == "female" else ""
+            age = getattr(st, 'age', 0)
             try:
-                await save_result(cb.message.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
                 await save_result(cb.message.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
                 print(f"[DB] Daily result saved: {st.daily_next_index}/48")
             except Exception as e:
-                print(f"[DB] Daily save error: {e}")
+                    print(f"[DB] Daily save error: {e}")
 
             total_q = len(bank.questions)
             remaining = total_q - st.daily_next_index
@@ -715,6 +735,8 @@ async def main():
     logger.info("BOT_TOKEN присутствует")
     
     bot = Bot(cfg.BOT_TOKEN)
+    global _bot_instance
+    _bot_instance = bot
     try:
         await bot.delete_webhook(drop_pending_updates=True)
         logger.info("Вебхук удалён")
