@@ -181,7 +181,7 @@ async def finish_test(m, st):
         result_lines.append("")
         result_lines.append("\U0001f447 А пока — поделись результатом с друзьями!")
 
-    # Финальное сообщение + предложение daily
+        # Финальное сообщение
     result_lines.append("")
     result_lines.append("—")
     result_lines.append("")
@@ -197,9 +197,9 @@ async def finish_test(m, st):
         result_lines.append(f"Чтобы уточнить совместимость, я буду задавать")
         result_lines.append(f"тебе по *4 вопроса каждый день*.")
         result_lines.append("")
-        result_lines.append(f"Осталось *{remaining} вопросов* — по 4 в день.")
+        result_lines.append(f"Осталось *{remaining} вопросов*.")
         result_lines.append("")
-        result_lines.append("Возвращайся завтра по команде /daily \U0001f525")
+        result_lines.append("Я сам напишу тебе завтра \U0001f525")
     else:
         result_lines.append("\U0001f4c8 *Твой полный портрет готов!*")
         result_lines.append("")
@@ -321,12 +321,9 @@ async def h_start(m: Message):
     await m.answer(welcome, reply_markup=keyboard, parse_mode="Markdown")
 
 
-@router.message(Command("help"))
-async def h_help(m: Message):
     help_text = (
         "\U0001f916 *Trezorium — команды*\n\n"
         "/start — начать тест\n"
-        "/daily — ежедневные вопросы\n"
         "/profile — мой профиль\n"
         "/agreement — пользовательское соглашение\n"
         "/privacy — политика конфиденциальности\n"
@@ -626,10 +623,9 @@ async def ans(cb: CallbackQuery):
             code = indotype.get("code", "—")
             raw_gender = getattr(st, 'gender', '')
             gender = "M" if raw_gender == "male" else "F" if raw_gender == "female" else ""
-            age = getattr(st, 'age', 0)
-            looking_for = getattr(st, 'looking_for', '') or ''
             try:
-                await save_result(m.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
+                await save_result(cb.message.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
+                await save_result(cb.message.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
                 print(f"[DB] Daily result saved: {st.daily_next_index}/48")
             except Exception as e:
                 print(f"[DB] Daily save error: {e}")
@@ -649,13 +645,13 @@ async def ans(cb: CallbackQuery):
                 await cb.message.answer(
                     f"\U0001f44d *Блок завершён!*\n\n"
                     f"Осталось *{remaining} вопросов*. "
-                    f"Возвращайся завтра по /daily \U0001f525",
+                    f"Я напишу тебе завтра \U0001f525",
                     parse_mode="Markdown"
                 )
         else:
-            # Есть ещё вопросы в этом блоке — не надо ничего делать,
-            # пользователь получит следующий по логике ниже
-            pass
+            # Есть ещё вопросы в этом блоке — отправляем следующий
+            next_qid = st.daily_asked[answered_in_batch]
+            await send_question(cb.message, st, next_qid)
         return
 
         # Обычный режим (стартовые 12 вопросов)
@@ -670,7 +666,6 @@ async def ans(cb: CallbackQuery):
 async def set_commands(bot):
     commands = [
         BotCommand(command="start", description="Начать тест"),
-        BotCommand(command="daily", description="Ежедневные вопросы"),
         BotCommand(command="profile", description="Мой профиль"),
         BotCommand(command="agreement", description="Пользовательское соглашение"),
         BotCommand(command="privacy", description="Политика конфиденциальности"),
