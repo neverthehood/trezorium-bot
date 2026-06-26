@@ -138,23 +138,22 @@ async def finish_test(m, st):
     except Exception:
         pass
 
-    # Сохраняем
-        print(f"[DB] Save user {m.chat.id}...")
+        # Сохраняем
+    print(f"[DB] Save user {m.chat.id}...")
+    raw_gender = getattr(st, 'gender', '')
+    gender = "M" if raw_gender == "male" else "F" if raw_gender == "female" else ""
+    age = getattr(st, 'age', 0)
+    looking_for = getattr(st, 'looking_for', '') or ''
     try:
-        raw_gender = getattr(st, 'gender', '')
-        gender = "M" if raw_gender == "male" else "F" if raw_gender == "female" else ""
-        age = getattr(st, 'age', 0)
-        looking_for = getattr(st, 'looking_for', '') or ''
         u = await save_user(m.chat.id, m.from_user.username, gender=gender, age=age, looking_for=looking_for)
         print(f"[DB] User saved: {u}")
-        raw_gender2 = getattr(st, 'gender', '')
-        gender2 = "M" if raw_gender2 == "male" else "F" if raw_gender2 == "female" else ""
-        r = await save_result(m.chat.id, code, st.vectors, raw_mods, gender=gender2, age=age, looking_for=looking_for)
+    except Exception as e:
+        print(f"[DB] User save error: {e}")
+    try:
+        r = await save_result(m.chat.id, code, st.vectors, raw_mods, gender=gender, age=age, looking_for=looking_for)
         print(f"[DB] Result saved: {r}")
     except Exception as e:
-        import traceback
-        print(f"[DB] Error: {e}")
-        traceback.print_exc()
+        print(f"[DB] Result save error: {e}")
 
     # Результат
     result_lines = []
@@ -408,7 +407,8 @@ async def h_onboarding_gender(cb: CallbackQuery):
     if not st:
         return
     
-        st.gender = "male" if cb.data.endswith("_M") else "female"
+                
+    st.gender = "male" if cb.data.endswith("_M") else "female"
     
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[
