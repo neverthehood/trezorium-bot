@@ -153,9 +153,7 @@ async def finish_test(m, st):
         print(f"[DB] Result saved: {r}")
     except Exception as e:
         print(f"[DB] Result save error: {e}")
-        print(f"[DB] Result save error: {e}")
     # Отложенный поиск мэтча (через 24 часа)
-        # Отложенный поиск мэтча (через 24 часа)
     asyncio.create_task(delayed_match_notify(m.chat.id, code, raw_mods, 24 * 3600))
 
     # Результат — только типаж, без мэтча
@@ -328,7 +326,7 @@ async def find_match(user_id, code, mods):
 @router.message(CommandStart())
 async def h_start(m: Message):
     welcome = (
-        "👋 *Trezorium* — сокровищница твоей половинки.\n\n"
+        "👋 *Трезориум* — в поисках сокровищ\n\n"
         "Я считаю, что каждый человек — уникальное сокровище "
         "со своим типом мышления, чувств и энергии.\n"
         "Большинство знакомств — лотерея. Я хочу, чтобы это была точная наука.\n\n"
@@ -628,6 +626,8 @@ async def ans(cb: CallbackQuery):
         apply_weights(st, opt.weights or {}, 1.0)
     await safe_answer(cb)
 
+    # Определяем режим
+    in_daily_mode = getattr(st, 'daily_mode', False) and getattr(st, 'daily_asked', [])
     if in_daily_mode:
         # Режим daily: считаем, сколько вопросов из этого блока уже отвечено
         answered_in_batch = sum(1 for qid_b in st.daily_asked if st.answers.get(qid_b, {}).get("single"))
