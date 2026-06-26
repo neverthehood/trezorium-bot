@@ -366,7 +366,20 @@ async def h_daily(m: Message):
         )
         return
 
-    # Берём следующие 4 вопроса
+    # Вызываем общую функцию отправки daily-блока
+    await send_daily_batch(m, st)
+
+
+async def send_daily_batch(m, st):
+    """Отправить пользователю блок из 4 daily-вопросов."""
+    from datetime import datetime, timezone
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    total_q = len(bank.questions)
+    next_idx = getattr(st, 'daily_next_index', ONBOARDING_COUNT)
+    if next_idx >= total_q:
+        return
+
     remaining = total_q - next_idx
     batch_size = min(4, remaining)
     batch_ids = []
@@ -381,6 +394,62 @@ async def h_daily(m: Message):
     # Отправляем первый вопрос
     first_q = bank.questions[next_idx]
     await send_question(m, st, first_q.id)
+
+
+async def daily_scheduler(bot: Bot):
+    """Фоновая задача: раз в час проверяет, кому пора отправить daily-вопросы."""
+    from datetime import datetime, timezone
+    logger = logging.getLogger(__name__)
+    logger.info("Daily scheduler запущен")
+
+    while True:
+        try:
+            now = datetime.now(timezone.utc)
+            today_str = now.strftime("%Y-%m-%d")
+
+            for chat_id, st in list(_sessions.items()):
+                if not getattr(st, 'daily_mode', False):
+                    continue
+
+                # Проверяем, не отвечал ли уже сегодня
+                if getattr(st, 'daily_last_date', None) == today_str:
+                    continue
+
+                # Проверяем, остались ли вопросы
+                total_q = len(bank.questions)
+                next_idx = getattr(st, 'daily_next_index', ONBOARDING_COUNT)
+                if next_idx >= total_q:
+                    continue
+
+                # Отправляем напоминание + блок вопросов
+                try:
+                    await bot.send_message(
+                        chat_id,
+                        "\U0001f31e *Новый день — новые вопросы!*\n\n"
+                        "Давай продолжим узнавать твой типаж. "
+                        "Всего 4 вопроса \U0001f4ad",
+                        parse_mode="Markdown"
+                    )
+                    # Используем объект-заглушку, чтобы send_question и send_daily_batch работали
+                    # Создаём простой объект с методом answer
+                    class FakeMessage:
+                        def __init__(self, chat_id, bot):
+                            self.chat = type('obj', (object,), {'id': chat_id})()
+                            self.chat.id = chat_id
+                            self._bot = bot
+                        async def answer(self, text, **kwargs):
+                            return await self._bot.send_message(self.chat.id, text, **kwargs)
+                    fake_msg = FakeMessage(chat_id, bot)
+                    await send_daily_batch(fake_msg, st)
+                    logger.info(f"Daily отправлен пользователю {chat_id}")
+                except Exception as e:
+                    logger.warning(f"Не удалось отправить daily пользователю {chat_id}: {e}")
+
+        except Exception as e:
+            logger.error(f"Ошибка в daily_scheduler: {e}")
+
+        # Ждём 1 час
+        await asyncio.sleep(3600)
 
 
 @router.message(Command("profile"))
@@ -656,11 +725,12 @@ async def main():
         logger.info("Вебхук удалён")
     except Exception as e:
         logger.warning(f"Ошибка удаления вебхука: {e}")
-    await set_commands(bot)
-    logger.info("Команды установлены")
-    
     dp = Dispatcher()
     dp.include_router(router)
+    
+    # Запускаем daily scheduler
+    asyncio.create_task(daily_scheduler(bot))
+    
     logger.info("Роутер подключён, стартую polling...")
     print("Trezorium Dating запущен!")
     await dp.start_polling(bot)
