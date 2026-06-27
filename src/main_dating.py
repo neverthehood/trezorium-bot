@@ -156,12 +156,16 @@ async def finish_test(m, st):
     # Отложенный поиск мэтча (через 24 часа)
     asyncio.create_task(delayed_match_notify(m.chat.id, code, raw_mods, 24 * 3600))
 
-    # Результат — только типаж, без мэтча
+        # Результат — только типаж, без мэтча
     result_lines = []
-    result_lines.append(f"\U0001f9e9 *Твой типаж:* {human_name}")
+    result_lines.append(f"🧩 *Твой архетип:* {human_name}")
     result_lines.append("")
-    result_lines.append(f"_{description}_")
+    result_lines.append(f"{description}")
     result_lines.append("")
+    result_lines.append("🔍 *Ищем твоё сокровище...*")
+    result_lines.append("")
+    result_lines.append("Мне нужно время, чтобы отыскать твой идеальный мэтч.")
+    result_lines.append("Скоро я вернусь!")
     result_lines.append("")
     result_lines.append("—")
     result_lines.append("")
@@ -172,21 +176,14 @@ async def finish_test(m, st):
     if remaining > 0:
         st.daily_mode = True
         st.daily_next_index = ONBOARDING_COUNT  # 12
-        result_lines.append("\U0001f4c8 *Твой портрет — только начало!*")
+        result_lines.append("📈 *Это предварительный результат!*")
         result_lines.append("")
-        result_lines.append(f"Чтобы уточнить совместимость, я буду задавать")
-        result_lines.append(f"тебе по *4 вопроса каждый день*.")
+        result_lines.append("Чтобы получить полный портрет и точный мэтч,")
+        result_lines.append("я буду задавать тебе по *4 вопроса каждый день*.")
         result_lines.append("")
-        result_lines.append(f"Осталось *{remaining} вопросов*.")
+        result_lines.append(f"Прогресс: {ONBOARDING_COUNT}/{total_q}")
         result_lines.append("")
-        result_lines.append("Я сам напишу тебе завтра \U0001f525")
-    else:
-        result_lines.append("\U0001f4c8 *Твой полный портрет готов!*")
-        result_lines.append("")
-        result_lines.append("Я составил твой психологический профиль")
-        result_lines.append("и буду искать того, кто тебе подходит.")
-        result_lines.append("")
-        result_lines.append("Скоро ты получишь уведомление о мэтче! \U0001f525")
+        result_lines.append("Я напишу тебе завтра 🔥")
 
     result_text = "\n".join(result_lines)
 
@@ -322,16 +319,17 @@ async def find_match(user_id, code, mods):
 # ------------------------------------------------------------
 # Handlers
 # ------------------------------------------------------------
-
 @router.message(CommandStart())
 async def h_start(m: Message):
     welcome = (
-        "👋 *Трезориум* — в поисках сокровищ\n\n"
-        "Я считаю, что каждый человек — уникальное сокровище "
-        "со своим типом мышления, чувств и энергии.\n"
+        "💎 *Трезориум* — в поисках сокровищ\n\n"
+        "Каждый человек — уникальное сокровище со своим типом мышления, "
+        "чувствами и энергией.\n\n"
+        "Как же найти своего человека, который подойдет именно тебе?\n"
         "Большинство знакомств — лотерея. Я хочу, чтобы это была точная наука.\n\n"
-        "Я задам 12 вопросов, чтобы узнать твой типаж, и найду того, кто тебе подходит.\n\n"
-        "Первые 200 пользователей — *бесплатный доступ навсегда* 🎁"
+        "Я задам тебе вопросы, чтобы узнать твой архетип и попробую отыскать "
+        "твое сокровище среди множества других.\n\n"
+        "Первые 200 пользователей — бесплатный доступ навсегда 🎁"
     )
     keyboard = InlineKeyboardMarkup(
         inline_keyboard=[[InlineKeyboardButton(text="🚀 Начнём!", callback_data="start_onboarding")]]
