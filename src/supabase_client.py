@@ -34,6 +34,10 @@ async def save_user(
     looking_for: str = ""
 ) -> dict:
     """Создаёт или обновляет пользователя."""
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"save_user called: telegram_id={telegram_id}, username={repr(username)}, gender={gender}, age={age}")
+
     client = get_client()
     data = {
         "telegram_id": telegram_id,
