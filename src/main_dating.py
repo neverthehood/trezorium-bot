@@ -609,7 +609,9 @@ async def ans(cb: CallbackQuery):
     if not st:
         await safe_answer(cb, "Начните с /start")
         return
-    if st.answers.get(qid, {}).get("single"):
+    if qid not in st.answers:
+        st.answers[qid] = {}
+    if st.answers[qid].get("single"):
         await safe_answer(cb, "Уже отвечено")
         return
     q = find_q(qid)
@@ -624,10 +626,19 @@ async def ans(cb: CallbackQuery):
         apply_weights(st, opt.weights or {}, 1.0)
     await safe_answer(cb)
 
-    # Определяем режим
+        # Определяем режим
     in_daily_mode = getattr(st, 'daily_mode', False) and getattr(st, 'daily_asked', [])
-    if in_daily_mode:
-        # Режим daily: считаем, сколько вопросов из этого блока уже отвечено
+    if not in_daily_mode:
+        # Обычный режим (стартовые 12 вопросов)
+        answered_count = len(st.asked)
+        if answered_count < ONBOARDING_COUNT:
+            next_q = bank.questions[answered_count]
+            await send_question(cb.message, st, next_q.id)
+        else:
+            await finish_test(cb.message, st)
+        return
+
+    # Режим daily: считаем, сколько вопросов из этого блока уже отвечено
         answered_in_batch = sum(1 for qid_b in st.daily_asked if st.answers.get(qid_b, {}).get("single"))
         if answered_in_batch >= len(st.daily_asked):
             # Блок завершён — обновляем результат и следующий индекс
@@ -670,15 +681,6 @@ async def ans(cb: CallbackQuery):
             # Есть ещё вопросы в этом блоке — отправляем следующий
             next_qid = st.daily_asked[answered_in_batch]
             await send_question(cb.message, st, next_qid)
-        return
-
-        # Обычный режим (стартовые 12 вопросов)
-    answered_count = len(st.asked)
-    if answered_count < ONBOARDING_COUNT:
-        next_q = bank.questions[answered_count]
-        await send_question(cb.message, st, next_q.id)
-    else:
-        await finish_test(cb.message, st)
 
 
 async def set_commands(bot):
