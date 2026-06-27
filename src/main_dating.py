@@ -192,17 +192,15 @@ async def finish_test(m, st):
 
 async def delayed_match_notify(chat_id: int, code: str, mods_raw: dict, delay_sec: int):
     """Через delay_sec секунд найти мэтч и отправить уведомление."""
-    from datetime import datetime
     import logging
     logger = logging.getLogger(__name__)
-    
+
     await asyncio.sleep(delay_sec)
-    
+
     try:
-        bot = _bot_instance  # будет установлено при старте
+        bot = _bot_instance
         if not bot:
             return
-            
         match = await find_match(chat_id, code, mods_raw)
         if match:
             match_user_id, match_code, _, score = match
@@ -211,17 +209,20 @@ async def delayed_match_notify(chat_id: int, code: str, mods_raw: dict, delay_se
                 f"\U0001f3af *Мы нашли твою половинку!*\n\n"
                 f"Совместимость: *{score:.0f}%*\n"
                 f"Типаж: {match_name}\n\n"
-                f"Напиши @{match_user_id} — вы созданы друг для друга!"
+                f"Нажми на кнопку ниже, чтобы написать \U0001f447"
             )
-            await bot.send_message(chat_id, text, parse_mode="Markdown")
-            logger.info(f"Match notification sent to {chat_id}: {match_code} @{match_user_id}")
+            keyboard = InlineKeyboardMarkup(
+                inline_keyboard=[
+                    [InlineKeyboardButton(text="\U0001f4ac Написать", url=f"tg://user?id={match_user_id}")]
+                ]
+            )
+            await bot.send_message(chat_id, text, reply_markup=keyboard, parse_mode="Markdown")
+            logger.info(f"Match notification sent to {chat_id}: {match_code} (user_id={match_user_id})")
         else:
             logger.info(f"Match not found for {chat_id} after delay, will retry later")
-            # Повторим через сутки
             asyncio.create_task(delayed_match_notify(chat_id, code, mods_raw, 24 * 3600))
     except Exception as e:
         logger.error(f"Match notification error for {chat_id}: {e}")
-        # Повторим через час
         asyncio.create_task(delayed_match_notify(chat_id, code, mods_raw, 3600))
 
 
