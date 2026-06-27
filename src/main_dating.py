@@ -144,7 +144,7 @@ async def finish_test(m, st):
     age = getattr(st, "age", 0)
     looking_for = getattr(st, "looking_for", "") or ""
     try:
-        u = await save_user(m.chat.id, m.from_user.username or m.from_user.first_name, gender=gender, age=age, looking_for=looking_for)
+        u = await save_user(m.chat.id, m.chat.username or m.chat.first_name, gender=gender, age=age, looking_for=looking_for)
         print(f"[DB] User saved: {u}")
     except Exception as e:
         print(f"[DB] User save error: {e}")
