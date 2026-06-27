@@ -554,7 +554,7 @@ async def h_onboarding_gender(cb: CallbackQuery):
         inline_keyboard=[
             [InlineKeyboardButton(text="👦 Парня", callback_data="looking_M")],
             [InlineKeyboardButton(text="👧 Девушку", callback_data="looking_F")],
-            [InlineKeyboardButton(text="🤝 Обоих", callback_data="looking_A")],
+            [InlineKeyboardButton(text="🤝 Всё равно", callback_data="looking_A")],
         ]
     )
     await cb.message.answer("🔍 *Кого ты ищешь?*", reply_markup=keyboard, parse_mode="Markdown")
